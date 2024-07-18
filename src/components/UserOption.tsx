@@ -1,20 +1,34 @@
 import { useState } from "react";
+import { onChangeGroupPropType } from "../App";
+import Option from "./Option";import OptionTitle from "./OptionTitle";
 
-const UserOption = () => {
+const getClassName = (type: string) => {
+  switch (type) {
+    case "1":
+      return "circle";
+    case "2":
+      return "square";
+    case "3":
+      return "number";
+  }
+};
+
+interface UserOptionProps {
+  onChangeGroup: ({ groupKey, value }: onChangeGroupPropType) => void;
+  optionKey: string;
+}
+
+const UserOption = ({ onChangeGroup, optionKey }: UserOptionProps) => {
+  const [userOption, setUserOption] = useState({
+    type: "1",
+    title: "",
+    options: {},
+    required: false,
+  });
   const [type, setType] = useState("1");
+  const optionArr = [<Option optionClass={getClassName(type)} />];
   const onChangeType = (e) => {
     setType(e.target.value);
-  };
-
-  const getClassName = (type: string) => {
-    switch (type) {
-      case "1":
-        return "circle";
-      case "2":
-        return "square";
-      case "3":
-        return "number";
-    }
   };
 
   const onClickDelete = () => {
@@ -22,28 +36,37 @@ const UserOption = () => {
   };
 
   return (
-    <article className="user-section">
-      <div className="box">
-        <input className="title" type="text" placeholder="제목" />
-        <select name="" id="" onChange={(e) => onChangeType(e)}>
-          <option value="1">객관식 질문</option>
-          <option value="2">체크박스</option>
-          <option value="3">드롭다운</option>
-        </select>
-      </div>
-      <section className="options">
-        <div className={getClassName(type)}>{type === "3" && type}</div>
-        <input type="text" placeholder="옵션 1" />
-        <div onClick={onClickDelete}>x</div>
-      </section>
-      <section className="add" onClick={() => console.log("추가")}>
+    <article
+      className="user-section"
+      onBlur={() =>
+        onChangeGroup({ groupKey: `option${optionKey}`, value: userOption })
+      }
+    >
+      <OptionTitle setUserOption={setUserOption} />
+
+      {optionArr}
+      <section
+        className="add"
+        onClick={() =>
+          optionArr.push(<Option optionClass={getClassName(type)} />)
+        }
+      >
         <div className={getClassName(type)}></div>
         <div className="txt">옵션 추가</div>
         <div></div>
+      </section>
+
+      <section style={{ fontSize: "14px", color: "gray" }}>
+        Is Required?
+        <input
+          type="checkbox"
+          onChange={(e) =>
+            setUserOption((prev) => ({ ...prev, required: e.target.checked }))
+          }
+        />
       </section>
     </article>
   );
 };
 
 export default UserOption;
-
