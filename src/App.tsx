@@ -3,39 +3,18 @@ import "./App.css";
 import UserOption from "./components/UserOption.tsx";
 import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
+import { combineKey } from "./util/utils.ts";
+import { onChangeGroupPropType } from "./types/type.ts";
 
-export interface onChangeGroupPropType {
-  groupKey: string;
-  value: {};
-}
 
 function App() {
   const [optionGroup, setOptionGroup] = useState({
     formTitle: { title: "", desc: "" },
-    option1: {
-      type: "",
-      title: "",
-      options: ["option1"],
-      required: true,
-    },
   });
 
   const onClickSubmit = () => {
     console.log(optionGroup);
   };
-
-  /**
-   * 
-   * @param option1 
-   * option1: {
-    type: "",
-    title : [],
-    asks: [
-      { title: "", options: ["", "", ""], required: true },
-      { title: "", options: ["", "", ""] },
-    ],
-  }, 
-   */
 
   const onChangeGroup = ({ groupKey, value }: onChangeGroupPropType) => {
     setOptionGroup((prev) => ({
@@ -54,11 +33,18 @@ function App() {
       <form className="form" onSubmit={onClickSubmit}>
         <FormTitle setOptionGroup={setOptionGroup} />
 
-        {userOptions.map((userOption) => (
-          <UserOption onChangeGroup={onChangeGroup} optionKey={userOption} />
+        {userOptions.map((userOption, index) => (
+          <UserOption
+            onChangeGroup={onChangeGroup}
+            optionKey={combineKey({
+              key_one: userOption,
+              key_two: (index + 1).toString(),
+            })}
+            setOptionGroup={setOptionGroup}
+          />
         ))}
-        <FormAdd setUserOptions={setUserOptions} />
 
+        <FormAdd setUserOptions={setUserOptions} />
         <button type="submit">제출</button>
       </form>
     </div>
