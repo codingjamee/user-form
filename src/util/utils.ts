@@ -13,3 +13,15 @@ export const combineKey = ({
 }) => {
   return `${key_one}${key_two}`;
 };
+
+
+export const getClassName = (type: string) => {
+  switch (type) {
+    case "1":
+      return "circle";
+    case "2":
+      return "square";
+    case "3":
+      return "number";
+  }
+};
