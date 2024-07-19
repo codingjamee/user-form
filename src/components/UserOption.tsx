@@ -1,71 +1,84 @@
 import { useState } from "react";
-import { onChangeGroupPropType } from "../App";
-import Option from "./Option";import OptionTitle from "./OptionTitle";
-
-const getClassName = (type: string) => {
-  switch (type) {
-    case "1":
-      return "circle";
-    case "2":
-      return "square";
-    case "3":
-      return "number";
-  }
-};
-
-interface UserOptionProps {
-  onChangeGroup: ({ groupKey, value }: onChangeGroupPropType) => void;
-  optionKey: string;
-}
+import Option from "./Option";
+import OptionTitle from "./OptionTitle";
+import { combineKey, getClassName } from "../util/utils";
+import { UserOptionProps } from "../types/type";
 
 const UserOption = ({ onChangeGroup, optionKey }: UserOptionProps) => {
   const [userOption, setUserOption] = useState({
     type: "1",
     title: "",
-    options: {},
+    options: { userOption1: "" },
     required: false,
   });
-  const [type, setType] = useState("1");
-  const optionArr = [<Option optionClass={getClassName(type)} />];
-  const onChangeType = (e) => {
-    setType(e.target.value);
-  };
 
-  const onClickDelete = () => {
-    console.log("delete ");
+  const onClickDelete = (index: number) => {
+    // setUserOption((prev) => {
+    //  return prev.filter((option, optionIndex) => index !== optionIndex);
+    // });
   };
 
   return (
-    <article
-      className="user-section"
-      onBlur={() =>
-        onChangeGroup({ groupKey: `option${optionKey}`, value: userOption })
-      }
-    >
-      <OptionTitle setUserOption={setUserOption} />
-
-      {optionArr}
-      <section
-        className="add"
-        onClick={() =>
-          optionArr.push(<Option optionClass={getClassName(type)} />)
-        }
+    <div style={{ display: "flex", gap: "10px" }}>
+      <article
+        className="user-section"
+        onBlur={() => onChangeGroup({ groupKey: optionKey, value: userOption })}
       >
-        <div className={getClassName(type)}></div>
-        <div className="txt">옵션 추가</div>
-        <div></div>
-      </section>
+        <OptionTitle setUserOption={setUserOption} />
 
-      <section style={{ fontSize: "14px", color: "gray" }}>
-        Is Required?
-        <input
-          type="checkbox"
-          onChange={(e) =>
-            setUserOption((prev) => ({ ...prev, required: e.target.checked }))
+        {Object.entries(userOption.options).map((_, index) => (
+          <Option
+            optionClass={getClassName(userOption.type)}
+            index={index}
+            setUserOption={setUserOption}
+            onClickDelete={onClickDelete}
+          />
+        ))}
+        <section
+          className="add"
+          onClick={() =>
+            setUserOption((prev) => ({
+              ...prev,
+              options: {
+                ...prev.options,
+                [`userOption${Object.entries(prev.options).length + 1}`]: "",
+              },
+            }))
           }
-        />
-      </section>
-    </article>
+        >
+          <div className={getClassName(userOption.type)}>
+            {getClassName(userOption.type) === "number" &&
+              Object.entries(userOption.options).length + 1}
+          </div>
+          <div className="txt">옵션 추가</div>
+          <div></div>
+        </section>
+
+        <section style={{ fontSize: "14px", color: "gray" }}>
+          Is Required?
+          <input
+            type="checkbox"
+            onChange={(e) =>
+              setUserOption((prev) => ({ ...prev, required: e.target.checked }))
+            }
+          />
+        </section>
+      </article>
+      <div
+        style={{
+          width: "100px",
+          height: "100px",
+          borderRadius: "8px",
+          border: "1px solid rgb(218, 220, 224)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          cursor: "pointer",
+        }}
+      >
+        휴지통
+      </div>
+    </div>
   );
 };
 
