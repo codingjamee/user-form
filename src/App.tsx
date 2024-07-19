@@ -5,6 +5,7 @@ import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
 import { combineKey, getNextNumber } from "./util/utils.ts";
 import { onChangeGroupPropType } from "./types/type.ts";
+import GetForm from "./components/GetForm.tsx";
 
 function App() {
   const [optionGroup, setOptionGroup] = useState({
@@ -61,10 +62,10 @@ function App() {
         }}
         style={{ width: "100px", height: "100px", border: "1px solid gray" }}
       >
-        가져와봐
+        데이터 가져오기
       </div>
 
-      <div>가져왔다:{data?.data}</div>
+      <GetForm data={data?.data} />
     </div>
   );
 }

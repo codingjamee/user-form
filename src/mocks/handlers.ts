@@ -10,20 +10,19 @@ export const handlers = [
   http.get("/resource", ({ request }) => {
     return HttpResponse.json({
       data: {
-        // formTitle: {
-        //   title: "test",
-        //   desc: "ttt",
-        // },
-        // option1: {
-        //   type: "1",
-        //   title: "test",
-        //   options: {
-        //     userOption1: "ttttt",
-        //     userOption2: "tttt",
-        //   },
-        //   required: true,
-        // },
-        "hello"
+        formTitle: {
+          title: "test",
+          desc: "ttt",
+        },
+        option1: {
+          type: "1",
+          title: "test",
+          options: {
+            userOption1: "ttttt",
+            userOption2: "tttt",
+          },
+          required: true,
+        },
       },
     });
   }),
