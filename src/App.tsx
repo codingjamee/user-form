@@ -1,19 +1,25 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import UserOption from "./components/UserOption.tsx";
 import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
-import { combineKey } from "./util/utils.ts";
+import { combineKey, getNextNumber } from "./util/utils.ts";
 import { onChangeGroupPropType } from "./types/type.ts";
-
 
 function App() {
   const [optionGroup, setOptionGroup] = useState({
     formTitle: { title: "", desc: "" },
   });
 
-  const onClickSubmit = () => {
+  const onClickSubmit = async (e) => {
+    e.preventDefault();
     console.log(optionGroup);
+    const result = await fetch("/api", {
+      method: "POST",
+      body: JSON.stringify(optionGroup),
+    });
+    const response = await result.json();
+    console.log(response);
   };
 
   const onChangeGroup = ({ groupKey, value }: onChangeGroupPropType) => {
@@ -24,9 +30,6 @@ function App() {
   };
 
   const [userOptions, setUserOptions] = useState<string[]>(["option"]);
-  useEffect(() => {
-    console.log(optionGroup);
-  }, [optionGroup]);
 
   return (
     <div className="app">
@@ -35,10 +38,11 @@ function App() {
 
         {userOptions.map((userOption, index) => (
           <UserOption
+            key={`group-${index}`}
             onChangeGroup={onChangeGroup}
             optionKey={combineKey({
               key_one: userOption,
-              key_two: (index + 1).toString(),
+              key_two: getNextNumber({ prevNumber: index })?.toString(),
             })}
             setOptionGroup={setOptionGroup}
           />

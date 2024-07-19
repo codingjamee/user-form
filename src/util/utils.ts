@@ -9,11 +9,10 @@ export const combineKey = ({
   key_two,
 }: {
   key_one: string;
-  key_two: string;
+  key_two?: string;
 }) => {
   return `${key_one}${key_two}`;
 };
-
 
 export const getClassName = (type: string) => {
   switch (type) {

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { OptionProps } from "../types/type";
+import { getNextNumber } from "../util/utils";
 
 const Option = ({
   optionClass,
@@ -19,7 +20,11 @@ const Option = ({
         }))
       }
     >
-      <div className={optionClass}>{optionClass === "number" && index + 1}</div>
+      <div className={optionClass}>
+        {optionClass === "number"
+          ? getNextNumber({ prevNumber: index }) ?? null
+          : null}
+      </div>
       <input
         type="text"
         placeholder={`옵션 ${index + 1}`}

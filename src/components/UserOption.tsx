@@ -30,6 +30,7 @@ const UserOption = ({ onChangeGroup, optionKey }: UserOptionProps) => {
           <Option
             optionClass={getClassName(userOption.type)}
             index={index}
+            key={`user-${index}`}
             setUserOption={setUserOption}
             onClickDelete={onClickDelete}
           />

@@ -1,9 +1,13 @@
-import { http } from "msw";
+import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  // Handles a POST /login request
-  http.post("/login", () => {}),
-
-  // Handles a GET /user request
-  http.get("/user", () => {}),
+  http.post("/api", async ({ request }) => {
+    const data = await request.json();
+    return HttpResponse.json({
+      data: { ok: true },
+    });
+  }),
+  http.get("/resource", ({ request }) => {
+    return HttpResponse.text("hello");
+  }),
 ];
