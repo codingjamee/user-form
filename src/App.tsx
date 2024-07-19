@@ -10,6 +10,7 @@ function App() {
   const [optionGroup, setOptionGroup] = useState({
     formTitle: { title: "", desc: "" },
   });
+  const [data, setData] = useState();
 
   const onClickSubmit = async (e) => {
     e.preventDefault();
@@ -51,6 +52,19 @@ function App() {
         <FormAdd setUserOptions={setUserOptions} />
         <button type="submit">제출</button>
       </form>
+      <div
+        onClick={async () => {
+          const result = await fetch("/resource", { method: "GET" });
+          const resultText = await result.json();
+          console.log(resultText);
+          setData(resultText);
+        }}
+        style={{ width: "100px", height: "100px", border: "1px solid gray" }}
+      >
+        가져와봐
+      </div>
+
+      <div>가져왔다:{data?.data}</div>
     </div>
   );
 }
