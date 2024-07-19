@@ -1,18 +1,11 @@
-import { getNextNumber } from "../util/utils";
+import { FormAddProps } from "../types/type";
 
-const FormAdd = ({
-  setUserOptions,
-}: {
-  setUserOptions: React.Dispatch<React.SetStateAction<string[]>>;
-}) => {
+const FormAdd = ({ setUserOptions }: FormAddProps) => {
   return (
     <div
       className="addInput"
       onClick={() => {
-        setUserOptions((prev) => [
-          ...prev,
-          `option${getNextNumber({ prevNumber: prev.length })}`,
-        ]);
+        setUserOptions((prev) => [...prev, `option`]);
       }}
     >
       +

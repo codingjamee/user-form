@@ -1,15 +1,6 @@
-const OptionTitle = ({
-  setUserOption,
-}: {
-  setUserOption: React.Dispatch<
-    React.SetStateAction<{
-      type: string;
-      title: string;
-      options: {};
-      required: boolean;
-    }>
-  >;
-}) => {
+import { OptionTitleProps } from "../types/type";
+
+const OptionTitle = ({ setUserOption }: OptionTitleProps) => {
   return (
     <div className="box">
       <input
