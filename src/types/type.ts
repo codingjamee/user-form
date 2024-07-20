@@ -1,14 +1,35 @@
+export interface FormTitle {
+  title: string;
+  desc: string;
+}
+
+export interface OptionsData {
+  id: string;
+  contents: string;
+}
+export interface AsksData {
+  id: string;
+  title: string;
+  options: OptionsData[];
+}
+
+export interface FormsData {
+  id: string;
+  type: string;
+  title: string;
+  asks: AsksData[];
+  required: boolean;
+}
+
+export interface FormPageData {
+  formTitle: FormTitle;
+  forms: FormsData[];
+}
+
 export interface UserOptionProps {
-  onChangeGroup: ({ groupKey, value }: onChangeGroupPropType) => void;
-  optionKey: string;
-  setOptionGroup: React.Dispatch<
-    React.SetStateAction<{
-      formTitle: {
-        title: string;
-        desc: string;
-      };
-    }>
-  >;
+  userOption: FormsData;
+  setOptionGroup: React.Dispatch<React.SetStateAction<FormPageData>>;
+  index: number;
 }
 
 export interface onChangeGroupPropType {
@@ -17,45 +38,21 @@ export interface onChangeGroupPropType {
 }
 
 export interface FormAddProps {
-  setUserOptions: React.Dispatch<React.SetStateAction<string[]>>;
+  setOptionGroup: React.Dispatch<React.SetStateAction<FormPageData>>;
 }
 
 export interface FormTitleProps {
-  setOptionGroup: React.Dispatch<
-    React.SetStateAction<{
-      formTitle: {
-        title: string;
-        desc: string;
-      };
-    }>
-  >;
+  setOptionGroup: React.Dispatch<React.SetStateAction<FormPageData>>;
 }
 
 export interface OptionProps {
   optionClass?: string;
-  setUserOption: React.Dispatch<
-    React.SetStateAction<{
-      type: string;
-      title: string;
-      options: {
-        userOption1: string;
-      };
-      required: boolean;
-    }>
-  >;
+  setOption: React.Dispatch<React.SetStateAction<FormsData>>;
   index: number;
-  onClickDelete: (index: number) => void;
+  onClickDelete: (id: string) => void;
+  option: AsksData;
 }
 
 export interface OptionTitleProps {
-  setUserOption: React.Dispatch<
-    React.SetStateAction<{
-      type: string;
-      title: string;
-      options: {
-        userOption1: string;
-      };
-      required: boolean;
-    }>
-  >;
+  setOption: React.Dispatch<React.SetStateAction<FormsData>>;
 }

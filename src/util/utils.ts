@@ -1,3 +1,6 @@
+import { FormPageData } from "../types/type";
+import { ulid } from "ulid";
+
 export const getNextNumber = ({ prevNumber }: { prevNumber: number }) => {
   if (typeof prevNumber !== "number")
     return console.log("숫자만 사용할 수 있습니다.");
@@ -23,4 +26,23 @@ export const getClassName = (type: string) => {
     case "3":
       return "number";
   }
+};
+
+export const defaultFormObj: FormPageData = {
+  formTitle: { title: "", desc: "" },
+  forms: [
+    {
+      id: ulid(),
+      title: "",
+      required: true,
+      type: "1",
+      asks: [
+        {
+          id: ulid(),
+          title: "",
+          options: [{ id: ulid(), contents: "" }],
+        },
+      ],
+    },
+  ],
 };

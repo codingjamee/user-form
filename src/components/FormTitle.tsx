@@ -1,4 +1,4 @@
-import { FormTitleProps } from "../types/type";
+import { FormPageData, FormTitleProps } from "../types/type";
 
 const FormTitle = ({ setOptionGroup }: FormTitleProps) => {
   return (
@@ -11,7 +11,7 @@ const FormTitle = ({ setOptionGroup }: FormTitleProps) => {
           onBlur={(e) =>
             setOptionGroup((prev) => ({
               ...prev,
-              ["formTitle"]: { ...prev.formTitle, title: e.target.value },
+              formTitle: { ...prev.formTitle, title: e.target.value },
             }))
           }
         />
@@ -22,7 +22,7 @@ const FormTitle = ({ setOptionGroup }: FormTitleProps) => {
           onBlur={(e) =>
             setOptionGroup((prev) => ({
               ...prev,
-              ["formTitle"]: { ...prev.formTitle, desc: e.target.value },
+              ["formTitle"]: { ...prev?.formTitle, desc: e.target.value },
             }))
           }
         />

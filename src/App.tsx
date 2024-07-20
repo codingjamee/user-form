@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
-import UserOption from "./components/UserOption.tsx";
 import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
-import { combineKey, getNextNumber } from "./util/utils.ts";
-import { onChangeGroupPropType } from "./types/type.ts";
+import { combineKey, defaultFormObj, getNextNumber } from "./util/utils.ts";
+import { FormPageData, onChangeGroupPropType } from "./types/type.ts";
 import GetForm from "./components/GetForm.tsx";
+import FormItem from "./components/FormItem.tsx";
+import cloneDeep from "lodash.clonedeep";
 
 function App() {
-  const [optionGroup, setOptionGroup] = useState({
-    formTitle: { title: "", desc: "" },
-  });
+  const copiedObj = cloneDeep(defaultFormObj);
+  const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
   const [data, setData] = useState();
 
   const onClickSubmit = async (e) => {
@@ -31,26 +31,25 @@ function App() {
     }));
   };
 
-  const [userOptions, setUserOptions] = useState<string[]>(["option"]);
+  useEffect(() => {
+    console.log(optionGroup);
+  }, [optionGroup]);
 
   return (
     <div className="app">
       <form className="form" onSubmit={onClickSubmit}>
         <FormTitle setOptionGroup={setOptionGroup} />
 
-        {userOptions.map((userOption, index) => (
-          <UserOption
+        {optionGroup.forms.map((userOption, index) => (
+          <FormItem
             key={`group-${index}`}
-            onChangeGroup={onChangeGroup}
-            optionKey={combineKey({
-              key_one: userOption,
-              key_two: getNextNumber({ prevNumber: index })?.toString(),
-            })}
             setOptionGroup={setOptionGroup}
+            userOption={userOption}
+            index={index}
           />
         ))}
 
-        <FormAdd setUserOptions={setUserOptions} />
+        <FormAdd setOptionGroup={setOptionGroup} />
         <button type="submit">제출</button>
       </form>
       <div
@@ -72,25 +71,26 @@ function App() {
 
 export default App;
 
+// type: [0: "radio", 1: "checkbox", 2: "short"]
 /**
- * type: [0: "radio", 1: "checkbox", 2: "short"]
-{
+ const df: FormPageData = {
   formTitle: { title: "", desc: "" },
-  option1: {
-    type: "",
-    title : [],
-    asks: [
-      { title: "", options: ["", "", ""], required: true },
-      { title: "", options: ["", "", ""] },
-    ],
-  }, 
-  option2: {
-    type: "",
-    title : [],
-    asks: [
-      { title: "", options: ["", "", ""], required: true },
-      { title: "", options: ["", "", ""] },
-    ],
-  }
+  forms: [
+    {
+      id: ulid(),
+      type: "",
+      title: "",
+      asks: [
+        {
+          id: ulid(),
+          title: "",
+          options: [{ id: ulid(), contents: "" }],
+          required: true,
+        },
+      ],
+    },
+  ],
 };
+
+ * 
  */

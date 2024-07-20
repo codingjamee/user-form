@@ -1,6 +1,6 @@
 import { OptionTitleProps } from "../types/type";
 
-const OptionTitle = ({ setUserOption }: OptionTitleProps) => {
+const OptionTitle = ({ setOption }: OptionTitleProps) => {
   return (
     <div className="box">
       <input
@@ -8,14 +8,14 @@ const OptionTitle = ({ setUserOption }: OptionTitleProps) => {
         type="text"
         placeholder="제목"
         onChange={(e) =>
-          setUserOption((prev) => ({ ...prev, title: e.target.value }))
+          setOption((prev) => ({ ...prev, title: e.target.value }))
         }
       />
       <select
         name=""
         id=""
         onChange={(e) =>
-          setUserOption((prev) => ({ ...prev, type: e.target.value }))
+          setOption((prev) => ({ ...prev, type: e.target.value }))
         }
       >
         <option value="1">객관식 질문</option>

@@ -1,25 +1,34 @@
 import { useState } from "react";
-import { OptionProps } from "../types/type";
+import { AsksData, OptionProps, OptionsData } from "../types/type";
 import { getNextNumber } from "../util/utils";
+import { ulid } from "ulid";
 
 const Option = ({
   optionClass,
-  setUserOption,
   index,
+  option,
+  setOption,
   onClickDelete,
 }: OptionProps) => {
-  const [optionDesc, setOptionDesc] = useState("");
+  const [optionDesc, setOptionDesc] = useState<AsksData>({
+    id: ulid(),
+    title: "",
+    options: [{ id: ulid(), contents: "" }],
+  });
+  const handleBlur = () => {
+    setOption((prev) => {
+      const updatedOptions = [...prev.asks];
+      updatedOptions[index] = optionDesc;
+
+      return {
+        ...prev,
+        options: updatedOptions,
+      };
+    });
+  };
 
   return (
-    <section
-      className="options"
-      onBlur={() =>
-        setUserOption((prev) => ({
-          ...prev,
-          options: { ...prev.options, [`userOption${index + 1}`]: optionDesc },
-        }))
-      }
-    >
+    <section className="options" onBlur={handleBlur}>
       <div className={optionClass}>
         {optionClass === "number"
           ? getNextNumber({ prevNumber: index }) ?? null
