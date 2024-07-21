@@ -316,3 +316,15 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.submitBtn {
+  width: 640px;
+ 
+}
+
+.btn {
+  padding: 20px;
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 4px;
+  cursor: pointer;
+}

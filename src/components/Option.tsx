@@ -6,7 +6,6 @@ import cloneDeep from "lodash.clonedeep";
 
 const Option = ({ optionClass, index, option, setOption }: OptionProps) => {
   const [optionDesc, setOptionDesc] = useState<AsksData>(cloneDeep(option));
-  console.log(option);
   const handleBlur = () => {
     setOption((prev) => {
       const updatedOptions = cloneDeep(prev.asks);

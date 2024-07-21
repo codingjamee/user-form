@@ -51,13 +51,6 @@ const FormItem = ({
         const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
         return { ...copiedOption, asks: [...copiedOption.asks, newAsk] };
       });
-
-      setOptionGroup((prev) => {
-        const copiedForms = cloneDeep(prev.forms);
-        const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
-        copiedForms[index].asks = [...copiedForms[index].asks, newAsk];
-        return { ...cloneDeep(prev), forms: copiedForms };
-      });
     },
     [setOptionGroup, index]
   );
