@@ -1,29 +1,30 @@
 import { useState } from "react";
-import { AsksData, OptionProps, OptionsData } from "../types/type";
+import { AsksData, OptionProps } from "../types/type";
 import { getNextNumber } from "../util/utils";
 import { ulid } from "ulid";
+import cloneDeep from "lodash.clonedeep";
 
-const Option = ({
-  optionClass,
-  index,
-  option,
-  setOption,
-  onClickDelete,
-}: OptionProps) => {
-  const [optionDesc, setOptionDesc] = useState<AsksData>({
-    id: ulid(),
-    title: "",
-    options: [{ id: ulid(), contents: "" }],
-  });
+const Option = ({ optionClass, index, option, setOption }: OptionProps) => {
+  const [optionDesc, setOptionDesc] = useState<AsksData>(cloneDeep(option));
+  console.log(option);
   const handleBlur = () => {
     setOption((prev) => {
-      const updatedOptions = [...prev.asks];
+      const updatedOptions = cloneDeep(prev.asks);
       updatedOptions[index] = optionDesc;
 
       return {
-        ...prev,
-        options: updatedOptions,
+        ...cloneDeep(prev),
+        asks: updatedOptions,
       };
+    });
+  };
+
+  const handleDelete = () => {
+    setOption((prev) => {
+      const updatedOptions = cloneDeep(prev.asks).filter(
+        (opt) => opt.id !== option.id
+      );
+      return { ...cloneDeep(prev), asks: updatedOptions };
     });
   };
 
@@ -37,9 +38,11 @@ const Option = ({
       <input
         type="text"
         placeholder={`옵션 ${index + 1}`}
-        onChange={(e) => setOptionDesc(e.target.value)}
+        onChange={(e) =>
+          setOptionDesc((prev) => ({ ...prev, title: e.target.value }))
+        }
       />
-      <div onClick={() => onClickDelete(index)}>x</div>
+      <div onClick={handleDelete}>x</div>
     </section>
   );
 };

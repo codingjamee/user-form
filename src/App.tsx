@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, FormEvent } from "react";
 import "./App.css";
 import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
@@ -17,7 +17,7 @@ function App() {
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
   const [data, setData] = useState();
 
-  const onClickSubmit = async (e) => {
+  const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(optionGroup);
     const result = await fetch("/api", {
@@ -30,7 +30,7 @@ function App() {
 
   const onChangeGroup = ({ groupKey, value }: onChangeGroupPropType) => {
     setOptionGroup((prev) => ({
-      ...prev,
+      ...cloneDeep(prev),
       [groupKey]: value,
     }));
   };
@@ -38,7 +38,7 @@ function App() {
   const onClickAdd = () => {
     const copiedForms = cloneDeep(createDefaultFormObj().forms[0]);
     setOptionGroup((prev) => ({
-      ...prev,
+      ...cloneDeep(prev),
       forms: [...prev.forms, copiedForms],
     }));
   };
@@ -54,7 +54,8 @@ function App() {
 
         {optionGroup.forms.map((userOption, index) => (
           <FormItem
-            key={`group-${index}`}
+            key={`group-${userOption.id}`}
+            optionGroup={optionGroup}
             setOptionGroup={setOptionGroup}
             userOption={userOption}
             index={index}
@@ -92,12 +93,15 @@ export default App;
       id: ulid(),
       type: "",
       title: "",
+      required: true,
       asks: [
         {
           id: ulid(),
           title: "",
-          options: [{ id: ulid(), contents: "" }],
-          required: true,
+        },
+        {
+          id: ulid(),
+          title: "",
         },
       ],
     },

@@ -3,14 +3,9 @@ export interface FormTitle {
   desc: string;
 }
 
-export interface OptionsData {
-  id: string;
-  contents: string;
-}
 export interface AsksData {
   id: string;
   title: string;
-  options: OptionsData[];
 }
 
 export interface FormsData {
@@ -28,6 +23,7 @@ export interface FormPageData {
 
 export interface UserOptionProps {
   userOption: FormsData;
+  optionGroup: FormPageData;
   setOptionGroup: React.Dispatch<React.SetStateAction<FormPageData>>;
   index: number;
 }
@@ -49,7 +45,6 @@ export interface OptionProps {
   optionClass?: string;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
   index: number;
-  onClickDelete: (id: string) => void;
   option: AsksData;
 }
 

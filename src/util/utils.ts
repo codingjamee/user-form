@@ -35,13 +35,12 @@ export const createDefaultFormObj = (): FormPageData => {
       {
         id: ulid(),
         title: "",
-        required: true,
+        required: false,
         type: "1",
         asks: [
           {
             id: ulid(),
             title: "",
-            options: [{ id: ulid(), contents: "" }],
           },
         ],
       },

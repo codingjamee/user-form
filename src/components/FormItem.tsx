@@ -1,77 +1,82 @@
-import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
+import {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
-import { combineKey, createDefaultFormObj, getClassName } from "../util/utils";
-import { AsksData, FormsData, UserOptionProps } from "../types/type";
-import { ulid } from "ulid";
+import { createDefaultFormObj, getClassName } from "../util/utils";
+import { FormsData, UserOptionProps } from "../types/type";
 import cloneDeep from "lodash.clonedeep";
 
-const FormItem = ({ userOption, setOptionGroup, index }: UserOptionProps) => {
-  const [option, setOption] = useState<FormsData>({
-    id: ulid(),
-    title: "",
-    asks: [
-      {
-        id: ulid(),
-        title: "",
-        options: [{ id: ulid(), contents: "" }],
-      },
-    ],
-    required: false,
-    type: "1",
-  });
+const FormItem = ({
+  userOption,
+  optionGroup,
+  setOptionGroup,
+  index,
+}: UserOptionProps) => {
+  const [option, setOption] = useState<FormsData>(
+    cloneDeep(optionGroup.forms[index])
+  );
 
   const onClickDelete = () => {
     setOptionGroup((prev) => {
-      const filteredForms = [...prev.forms].filter(
+      const filteredForms = cloneDeep(prev.forms).filter(
         (form) => form.id !== userOption.id
       );
-      return { ...prev, forms: filteredForms };
+      return { ...cloneDeep(prev), forms: filteredForms };
     });
   };
 
-  // const handleBlur = () => {
-  //   setOptionGroup((prev) => {
-  //     const updatedForms = [...prev.forms];
-  //     updatedForms[index] = option;
-  //     return { ...prev, forms: updatedForms };
-  //   });
-  // };
+  const handleBlur = () => {
+    setOptionGroup((prev) => {
+      const updatedForms = cloneDeep(prev.forms);
+      updatedForms[index] = option;
+      return { ...cloneDeep(prev), forms: updatedForms };
+    });
+  };
+
+  useEffect(() => {
+    handleBlur();
+  }, [option]);
 
   const onClickAdd = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
-      console.log("Add button clicked");
+
+      setOption((prev) => {
+        const copiedOption = cloneDeep(prev);
+        const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
+        return { ...copiedOption, asks: [...copiedOption.asks, newAsk] };
+      });
 
       setOptionGroup((prev) => {
-        const copiedForms = [...prev.forms];
+        const copiedForms = cloneDeep(prev.forms);
         const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
         copiedForms[index].asks = [...copiedForms[index].asks, newAsk];
-        return { ...prev, forms: copiedForms };
+        return { ...cloneDeep(prev), forms: copiedForms };
       });
     },
     [setOptionGroup, index]
   );
 
   const onChangeCheck = (e: ChangeEvent<HTMLInputElement>) => {
-    setOption((prev) => ({ ...prev, required: e.target.checked }));
+    setOption((prev) => ({ ...cloneDeep(prev), required: e.target.checked }));
   };
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      <article
-        className="user-section"
-        // onBlur={handleBlur}
-      >
+      <article className="user-section" onBlur={handleBlur}>
         <OptionTitle setOption={setOption} />
 
         {userOption.asks.map((option, index) => (
           <Option
-            key={`user-${index}`}
+            key={`user-${option.id}`}
             optionClass={getClassName(userOption.type)}
             index={index}
             option={option}
             setOption={setOption}
-            onClickDelete={() => {}}
           />
         ))}
         <section className="add">
