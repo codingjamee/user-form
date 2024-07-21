@@ -28,21 +28,23 @@ export const getClassName = (type: string) => {
   }
 };
 
-export const defaultFormObj: FormPageData = {
-  formTitle: { title: "", desc: "" },
-  forms: [
-    {
-      id: ulid(),
-      title: "",
-      required: true,
-      type: "1",
-      asks: [
-        {
-          id: ulid(),
-          title: "",
-          options: [{ id: ulid(), contents: "" }],
-        },
-      ],
-    },
-  ],
+export const createDefaultFormObj = (): FormPageData => {
+  return {
+    formTitle: { title: "", desc: "" },
+    forms: [
+      {
+        id: ulid(),
+        title: "",
+        required: true,
+        type: "1",
+        asks: [
+          {
+            id: ulid(),
+            title: "",
+            options: [{ id: ulid(), contents: "" }],
+          },
+        ],
+      },
+    ],
+  };
 };

@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
-import { combineKey, defaultFormObj, getClassName } from "../util/utils";
+import { combineKey, createDefaultFormObj, getClassName } from "../util/utils";
 import { AsksData, FormsData, UserOptionProps } from "../types/type";
 import { ulid } from "ulid";
 import cloneDeep from "lodash.clonedeep";
@@ -21,42 +21,47 @@ const FormItem = ({ userOption, setOptionGroup, index }: UserOptionProps) => {
     type: "1",
   });
 
-  const onClickDelete = (id: string) => {
-    console.log(userOption.id);
+  const onClickDelete = () => {
     setOptionGroup((prev) => {
       const filteredForms = [...prev.forms].filter(
         (form) => form.id !== userOption.id
       );
-      console.log(filteredForms);
       return { ...prev, forms: filteredForms };
     });
   };
 
-  const handleBlur = () => {
-    setOptionGroup((prev) => {
-      const updatedForms = [...prev.forms];
-      updatedForms[index] = option;
-      return { ...prev, forms: updatedForms };
-    });
-  };
+  // const handleBlur = () => {
+  //   setOptionGroup((prev) => {
+  //     const updatedForms = [...prev.forms];
+  //     updatedForms[index] = option;
+  //     return { ...prev, forms: updatedForms };
+  //   });
+  // };
 
-  const onClickAdd = () => {
-    setOptionGroup((prev) => {
-      const copiedForms = [...prev.forms];
-      const newAsk = cloneDeep(defaultFormObj.forms[0].asks[0]);
-      copiedForms[index].asks = [...copiedForms[index].asks, newAsk];
-      console.log(copiedForms[index].asks);
+  const onClickAdd = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      console.log("Add button clicked");
 
-      return { ...prev, forms: copiedForms };
-    });
-  };
+      setOptionGroup((prev) => {
+        const copiedForms = [...prev.forms];
+        const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
+        copiedForms[index].asks = [...copiedForms[index].asks, newAsk];
+        return { ...prev, forms: copiedForms };
+      });
+    },
+    [setOptionGroup, index]
+  );
 
-  const onChangeCheck = (e) => {
+  const onChangeCheck = (e: ChangeEvent<HTMLInputElement>) => {
     setOption((prev) => ({ ...prev, required: e.target.checked }));
   };
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      <article className="user-section" onBlur={handleBlur}>
+      <article
+        className="user-section"
+        // onBlur={handleBlur}
+      >
         <OptionTitle setOption={setOption} />
 
         {userOption.asks.map((option, index) => (
@@ -66,15 +71,17 @@ const FormItem = ({ userOption, setOptionGroup, index }: UserOptionProps) => {
             index={index}
             option={option}
             setOption={setOption}
-            onClickDelete={onClickDelete}
+            onClickDelete={() => {}}
           />
         ))}
-        <section className="add" onClick={onClickAdd}>
+        <section className="add">
           <div className={getClassName(userOption.type)}>
             {getClassName(userOption.type) === "number" &&
               userOption.asks.length + 1}
           </div>
-          <div className="txt">옵션 추가</div>
+          <div className="txt" onClick={onClickAdd}>
+            옵션 추가
+          </div>
           <div></div>
         </section>
 

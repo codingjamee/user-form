@@ -2,14 +2,18 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import FormTitle from "./components/FormTitle.tsx";
 import FormAdd from "./components/FormAdd.tsx";
-import { combineKey, defaultFormObj, getNextNumber } from "./util/utils.ts";
+import {
+  combineKey,
+  createDefaultFormObj,
+  getNextNumber,
+} from "./util/utils.ts";
 import { FormPageData, onChangeGroupPropType } from "./types/type.ts";
 import GetForm from "./components/GetForm.tsx";
 import FormItem from "./components/FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 
 function App() {
-  const copiedObj = cloneDeep(defaultFormObj);
+  const copiedObj = cloneDeep(createDefaultFormObj());
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
   const [data, setData] = useState();
 
@@ -31,6 +35,14 @@ function App() {
     }));
   };
 
+  const onClickAdd = () => {
+    const copiedForms = cloneDeep(createDefaultFormObj().forms[0]);
+    setOptionGroup((prev) => ({
+      ...prev,
+      forms: [...prev.forms, copiedForms],
+    }));
+  };
+
   useEffect(() => {
     console.log(optionGroup);
   }, [optionGroup]);
@@ -49,7 +61,7 @@ function App() {
           />
         ))}
 
-        <FormAdd setOptionGroup={setOptionGroup} />
+        <FormAdd onClickAdd={onClickAdd} />
         <button type="submit">제출</button>
       </form>
       <div

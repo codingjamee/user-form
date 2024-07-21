@@ -38,7 +38,7 @@ export interface onChangeGroupPropType {
 }
 
 export interface FormAddProps {
-  setOptionGroup: React.Dispatch<React.SetStateAction<FormPageData>>;
+  onClickAdd: () => void;
 }
 
 export interface FormTitleProps {
