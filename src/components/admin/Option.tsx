@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { AsksData, OptionProps } from "../types/type";
-import { getNextNumber } from "../util/utils";
+import { AsksData, OptionProps } from "../../types/type";
+import { getNextNumber } from "../../util/utils";
 import { ulid } from "ulid";
 import cloneDeep from "lodash.clonedeep";
 

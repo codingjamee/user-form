@@ -257,6 +257,11 @@ body {
   gap: 8px;
 }
 
+.user-section .box select {
+  border-radius: 8px;
+  border: 1px solid rgb(218, 220, 224);
+}
+
 .user-section input {
   border: none;
   box-sizing: border-box;
@@ -310,7 +315,7 @@ body {
 }
 
 .addInput {
-  width: 100px;
+  width: 640px;
   padding: 20px 0;
   border: 1px solid rgb(218, 220, 224);
   border-radius: 4px;
@@ -319,7 +324,6 @@ body {
 
 .submitBtn {
   width: 640px;
- 
 }
 
 .btn {

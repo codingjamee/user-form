@@ -1,5 +1,5 @@
 import { useState } from "react";
-import GetForm from "../GetForm";
+import GetForm from "./GetForm";
 
 const UserForms = () => {
   const [data, setData] = useState();

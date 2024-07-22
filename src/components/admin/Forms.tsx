@@ -1,15 +1,10 @@
-import { useEffect, useState, FormEvent } from "react";
+import { useState, FormEvent } from "react";
 import "../../App.css";
-import FormTitle from "../../components/FormTitle.tsx";
-import FormAdd from "../../components/FormAdd.tsx";
-import {
-  combineKey,
-  createDefaultFormObj,
-  getNextNumber,
-} from "../../util/utils.ts";
-import { FormPageData, onChangeGroupPropType } from "../../types/type.ts";
-import GetForm from "../../components/GetForm.tsx";
-import FormItem from "../../components/FormItem.tsx";
+import FormTitle from "./FormTitle.tsx";
+import FormAdd from "./FormAdd.tsx";
+import { createDefaultFormObj } from "../../util/utils.ts";
+import { FormPageData } from "../../types/type.ts";
+import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 
 function Forms() {
