@@ -332,3 +332,11 @@ body {
   border-radius: 4px;
   cursor: pointer;
 }
+
+.user-section.get .box .title {
+  flex: 1;
+}
+
+.user-section.get input {
+  flex: 0 1 auto;
+}

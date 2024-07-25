@@ -6,20 +6,28 @@ import { createDefaultFormObj } from "../../util/utils.ts";
 import { FormPageData } from "../../types/type.ts";
 import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
+import { useNavigate } from "react-router-dom";
 
 function Forms() {
   const copiedObj = createDefaultFormObj();
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
+  const navigate = useNavigate();
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log(optionGroup);
     try {
-      const result = await fetch("/api", {
+      const result = await fetch("/api/forms", {
         method: "POST",
         body: JSON.stringify(optionGroup),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
       const response = await result.json();
-      console.log(response);
+      const responseId = response?.formId.split("_")[1];
+      console.log(response?.formId.split("_")[1]);
+      navigate(`/user/forms/${responseId}`);
     } catch (err) {
       console.log(err);
     }

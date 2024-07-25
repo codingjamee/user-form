@@ -10,6 +10,7 @@ function App() {
       <Route element={<Home />}>
         <Route path="/admin/forms" element={<Forms />} />
         <Route path="/user/forms" element={<UserForms />} />
+        <Route path="/user/forms/:formId" element={<UserForms />} />
       </Route>
     </Routes>
   );
