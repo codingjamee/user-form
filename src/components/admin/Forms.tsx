@@ -22,11 +22,12 @@ function Forms() {
   };
 
   const onClickAdd = () => {
-    const copiedForms = cloneDeep(createDefaultFormObj().forms[0]);
-    setOptionGroup((prev) => ({
-      ...cloneDeep(prev),
-      forms: [...prev.forms, copiedForms],
-    }));
+const copiedForms = createDefaultFormObj().forms[0];
+  setOptionGroup((prev) => {
+    const clonedPrev = cloneDeep(prev);
+    clonedPrev.forms.push(copiedForms);
+    return clonedPrev;
+  });
   };
 
   return (
