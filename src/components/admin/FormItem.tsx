@@ -38,7 +38,7 @@ const FormItem = ({
 
       setOption((prev) => {
         const copiedOption = cloneDeep(prev);
-        const newAsk = cloneDeep(createDefaultFormObj().forms[0].asks[0]);
+        const newAsk = createDefaultFormObj().forms[0].asks[0];
         return { ...copiedOption, asks: [...copiedOption.asks, newAsk] };
       });
     },

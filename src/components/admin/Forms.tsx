@@ -8,7 +8,7 @@ import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 
 function Forms() {
-  const copiedObj = cloneDeep(createDefaultFormObj());
+  const copiedObj = createDefaultFormObj();
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
