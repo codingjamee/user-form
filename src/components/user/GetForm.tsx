@@ -13,7 +13,7 @@ const GetForm = ({ data }: { data?: FormPageData }) => {
               <input
                 type="text"
                 placeholder="설문지 제목"
-                defaultValue={data?.formTitle.title}
+                defaultValue={data?.formTitle?.title}
               />
             </div>
             <div style={{ display: "flex", gap: "20px" }}>
@@ -33,8 +33,8 @@ const GetForm = ({ data }: { data?: FormPageData }) => {
           style={{ display: "flex", gap: "10px" }}
         >
           {data &&
-            data.forms.map((form, index) => (
-              <FormOptions key={form.id} form={form} />
+            data?.forms?.map((form, index) => (
+              <FormOptions key={form?.id} form={form} />
             ))}
         </article>
       </div>
