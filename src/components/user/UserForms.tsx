@@ -7,11 +7,15 @@ const UserForms = () => {
   const { formId } = useParams();
 
   const getFormData = async () => {
-    const result = await fetch(`/api/forms/${formId}`, {
-      method: "GET",
-    });
-    const resultText = await result.json();
-    setData(resultText);
+    try {
+      const result = await fetch(`/api/forms/${formId}`, {
+        method: "GET",
+      });
+      const resultText = await result.json();
+      setData(resultText);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {

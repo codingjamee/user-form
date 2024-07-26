@@ -13,20 +13,25 @@ function Forms() {
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const result = await fetch("/api", {
-      method: "POST",
-      body: JSON.stringify(optionGroup),
-    });
-    const response = await result.json();
-    console.log(response);
+    try {
+      const result = await fetch("/api", {
+        method: "POST",
+        body: JSON.stringify(optionGroup),
+      });
+      const response = await result.json();
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onClickAdd = () => {
-    const copiedForms = cloneDeep(createDefaultFormObj().forms[0]);
-    setOptionGroup((prev) => ({
-      ...cloneDeep(prev),
-      forms: [...prev.forms, copiedForms],
-    }));
+    const copiedForms = createDefaultFormObj().forms[0];
+    setOptionGroup((prev) => {
+      const clonedPrev = cloneDeep(prev);
+      clonedPrev.forms.push(copiedForms);
+      return clonedPrev;
+    });
   };
 
   return (

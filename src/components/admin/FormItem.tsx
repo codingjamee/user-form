@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
 import { createDefaultFormObj, getClassName } from "../../util/utils";
@@ -30,17 +24,13 @@ const FormItem = ({
     });
   };
 
-  const handleBlur = () => {
+  const onBlurFn = () => {
     setOptionGroup((prev) => {
       const updatedForms = cloneDeep(prev.forms);
       updatedForms[index] = option;
       return { ...cloneDeep(prev), forms: updatedForms };
     });
   };
-
-  useEffect(() => {
-    handleBlur();
-  }, [option]);
 
   const onClickAdd = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
@@ -60,8 +50,8 @@ const FormItem = ({
   };
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      <article className="user-section" onBlur={handleBlur}>
-        <OptionTitle setOption={setOption} />
+      <article className="user-section" onBlur={onBlurFn}>
+        <OptionTitle setOption={setOption} onBlurFn={onBlurFn} />
 
         {userOption.asks.map((option, index) => (
           <Option
@@ -70,6 +60,7 @@ const FormItem = ({
             index={index}
             option={option}
             setOption={setOption}
+            onBlurGroupFn={onBlurFn}
           />
         ))}
         <section className="add">

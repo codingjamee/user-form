@@ -44,10 +44,12 @@ export interface FormTitleProps {
 export interface OptionProps {
   optionClass?: string;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
+  onBlurGroupFn: () => void;
   index: number;
   option: AsksData;
 }
 
 export interface OptionTitleProps {
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
+  onBlurFn: () => void;
 }
