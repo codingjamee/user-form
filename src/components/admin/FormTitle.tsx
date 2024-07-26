@@ -1,4 +1,4 @@
-import { FormPageData, FormTitleProps } from "../../types/type";
+import { FormTitleProps } from "../../types/type";
 
 const FormTitle = ({ setOptionGroup }: FormTitleProps) => {
   return (
