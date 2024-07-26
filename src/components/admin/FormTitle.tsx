@@ -22,7 +22,7 @@ const FormTitle = ({ setOptionGroup }: FormTitleProps) => {
           onBlur={(e) =>
             setOptionGroup((prev) => ({
               ...prev,
-              ["formTitle"]: { ...prev?.formTitle, desc: e.target.value },
+              formTitle: { ...prev?.formTitle, desc: e.target.value },
             }))
           }
         />
