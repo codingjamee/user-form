@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
 import { createDefaultFormObj, getClassName } from "../../util/utils";
-import { FormsData, UserOptionProps } from "../../types/type";
+import { AsksData, FormsData, UserOptionProps } from "../../types/type";
 import cloneDeep from "lodash.clonedeep";
 
 const FormItem = ({
@@ -15,7 +15,16 @@ const FormItem = ({
     cloneDeep(optionGroup.forms[index])
   );
 
+  const onBlurFn = ({ newOption }: { newOption: FormsData }) => {
+    setOptionGroup((prev) => {
+      const updatedForms = cloneDeep(prev.forms);
+      updatedForms[index] = newOption;
+      return { ...cloneDeep(prev), forms: updatedForms };
+    });
+  };
+
   const onClickDelete = () => {
+    console.log("delete clicked");
     setOptionGroup((prev) => {
       const filteredForms = cloneDeep(prev.forms).filter(
         (form) => form.id !== userOption.id
@@ -24,25 +33,20 @@ const FormItem = ({
     });
   };
 
-  const onBlurFn = () => {
-    setOptionGroup((prev) => {
-      const updatedForms = cloneDeep(prev.forms);
-      updatedForms[index] = option;
-      return { ...cloneDeep(prev), forms: updatedForms };
-    });
-  };
-
   const onClickAdd = useCallback(
     (e: MouseEvent<HTMLDivElement>) => {
       e.stopPropagation();
+      const newAsk: AsksData = createDefaultFormObj().forms[0].asks[0];
 
-      setOption((prev) => {
-        const copiedOption = cloneDeep(prev);
-        const newAsk = createDefaultFormObj().forms[0].asks[0];
-        return { ...copiedOption, asks: [...copiedOption.asks, newAsk] };
-      });
+      const newOption: FormsData = {
+        ...option,
+        asks: [...option.asks, newAsk],
+      };
+
+      setOption(newOption);
+      onBlurFn({ newOption });
     },
-    [setOptionGroup, index]
+    [setOption, index, option]
   );
 
   const onChangeCheck = (e: ChangeEvent<HTMLInputElement>) => {
@@ -50,12 +54,20 @@ const FormItem = ({
   };
   return (
     <div style={{ display: "flex", gap: "10px" }}>
-      <article className="user-section" onBlur={onBlurFn}>
-        <OptionTitle setOption={setOption} onBlurFn={onBlurFn} />
+      <article
+        className="user-section"
+        onBlur={() => onBlurFn({ newOption: option })}
+      >
+        <OptionTitle
+          option={option}
+          setOption={setOption}
+          onBlurFn={onBlurFn}
+        />
 
         {userOption.asks.map((option, index) => (
           <Option
             key={`user-${option.id}`}
+            userOption={userOption}
             optionClass={getClassName(userOption.type)}
             index={index}
             option={option}
@@ -63,14 +75,12 @@ const FormItem = ({
             onBlurGroupFn={onBlurFn}
           />
         ))}
-        <section className="add">
+        <section className="add" onClick={onClickAdd}>
           <div className={getClassName(userOption.type)}>
             {getClassName(userOption.type) === "number" &&
               userOption.asks.length + 1}
           </div>
-          <div className="txt" onClick={onClickAdd}>
-            옵션 추가
-          </div>
+          <div className="txt">옵션 추가</div>
           <div></div>
         </section>
 
@@ -79,19 +89,7 @@ const FormItem = ({
           <input type="checkbox" onChange={onChangeCheck} />
         </section>
       </article>
-      <div
-        style={{
-          width: "100px",
-          height: "100px",
-          borderRadius: "8px",
-          border: "1px solid rgb(218, 220, 224)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          cursor: "pointer",
-        }}
-        onClick={onClickDelete}
-      >
+      <div className="trash" onClick={onClickDelete}>
         휴지통
       </div>
     </div>

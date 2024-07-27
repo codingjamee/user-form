@@ -43,13 +43,15 @@ export interface FormTitleProps {
 
 export interface OptionProps {
   optionClass?: string;
+  userOption: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  onBlurGroupFn: () => void;
+  onBlurGroupFn: ({ newOption }: { newOption: FormsData }) => void;
   index: number;
   option: AsksData;
 }
 
 export interface OptionTitleProps {
+  option: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  onBlurFn: () => void;
+  onBlurFn: ({ newOption }: { newOption: FormsData }) => void;
 }

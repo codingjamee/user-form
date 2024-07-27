@@ -1,6 +1,6 @@
 import { OptionTitleProps } from "../../types/type";
 
-const OptionTitle = ({ setOption, onBlurFn }: OptionTitleProps) => {
+const OptionTitle = ({ option, setOption, onBlurFn }: OptionTitleProps) => {
   return (
     <div className="box">
       <input
@@ -8,16 +8,24 @@ const OptionTitle = ({ setOption, onBlurFn }: OptionTitleProps) => {
         type="text"
         placeholder="제목"
         onChange={(e) => {
-          setOption((prev) => ({ ...prev, title: e.target.value }));
-          onBlurFn();
+          const newOption = {
+            ...option,
+            title: e.target.value,
+          };
+          setOption(newOption);
+          onBlurFn({ newOption });
         }}
       />
       <select
         name=""
         id=""
         onChange={(e) => {
-          setOption((prev) => ({ ...prev, type: e.target.value }));
-          onBlurFn();
+          const newOption = {
+            ...option,
+            type: e.target.value,
+          };
+          setOption(newOption);
+          onBlurFn({ newOption });
         }}
       >
         <option value="1">객관식 질문</option>

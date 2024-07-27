@@ -340,3 +340,14 @@ body {
 .user-section.get input {
   flex: 0 1 auto;
 }
+
+.trash {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  border: 1px solid rgb(218, 220, 224);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { MouseEvent, useState } from "react";
 import { AsksData, OptionProps } from "../../types/type";
 import { getNextNumber } from "../../util/utils";
 import cloneDeep from "lodash.clonedeep";
 
 const Option = ({
+  userOption,
   optionClass,
   index,
   option,
@@ -12,26 +13,33 @@ const Option = ({
 }: OptionProps) => {
   const [optionDesc, setOptionDesc] = useState<AsksData>(cloneDeep(option));
   const onBlurFn = () => {
-    setOption((prev) => {
-      const updatedOptions = cloneDeep(prev.asks);
-      updatedOptions[index] = optionDesc;
+    const updatedOptions = cloneDeep(userOption.asks);
+    updatedOptions[index] = optionDesc;
 
-      return {
-        ...cloneDeep(prev),
-        asks: updatedOptions,
-      };
-    });
-    onBlurGroupFn();
+    const newOptionGroup = {
+      ...userOption,
+      asks: updatedOptions,
+    };
+    setOption(newOptionGroup);
+    onBlurGroupFn({ newOption: newOptionGroup });
   };
 
-  const onDeleteFn = () => {
-    setOption((prev) => {
-      const updatedOptions = cloneDeep(prev.asks).filter(
-        (opt) => opt.id !== option.id
-      );
-      return { ...cloneDeep(prev), asks: updatedOptions };
-    });
-    onBlurGroupFn();
+  const onDeleteFn = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    let clonedOptions = cloneDeep(userOption.asks);
+    clonedOptions = clonedOptions.filter((opt) => opt.id !== option.id);
+
+    const updatedOptions = {
+      ...userOption,
+      asks: clonedOptions,
+    };
+
+    setOption(updatedOptions);
+    onBlurGroupFn({ newOption: updatedOptions });
+
+    console.log(e.target);
+    console.log(e.currentTarget);
   };
 
   return (
