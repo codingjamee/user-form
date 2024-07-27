@@ -1,29 +1,27 @@
 import { FormsData } from "../../types/type";
+import styles from "./FormOptions.module.css";
 
 const FormOptions = ({ form }: { form: FormsData }) => {
+  console.log(form);
   return (
-    <>
-      <div className="box" style={{ display: "flex" }}>
+    <div className={styles["options-wrapper"]}>
+      <div className={`box ${styles["title-wrapper"]}`}>
         <div>{form.title}</div>
+        {form.required && (
+          <div className={styles["required"]}>"필수로 입력해주세요"</div>
+        )}
       </div>
-      <section className="options" key={form?.id}>
+      <section className={styles["options"]} key={form?.id}>
         {form.asks.map((ask) => (
-          <div
-            style={{
-              width: "100%",
-              display: "flex",
-              justifyContent: "flex-start",
-            }}
-          >
-            <input type="checkbox" id={ask.id} style={{ width: "20px" }} />
-            <label htmlFor={ask.id} style={{ flex: 1 }}>
+          <div className={styles["ask"]} key={ask?.id}>
+            <input className={styles["input"]} type="checkbox" id={ask.id} />
+            <label className={styles["label"]} htmlFor={ask.id}>
               {ask.title}
             </label>
           </div>
         ))}
       </section>
-      {form.required && <div>"필수로 입력해주세요"</div>}
-    </>
+    </div>
   );
 };
 

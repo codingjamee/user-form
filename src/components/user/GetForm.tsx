@@ -30,7 +30,7 @@ const GetForm = ({ data }: { data?: FormPageData }) => {
 
         <article
           className="user-section get"
-          style={{ display: "flex", gap: "10px" }}
+          style={{ display: "flex", gap: "30px" }}
         >
           {data &&
             data?.forms?.map((form, index) => (
