@@ -37,9 +37,6 @@ const Option = ({
 
     setOption(updatedOptions);
     onBlurGroupFn({ newOption: updatedOptions });
-
-    console.log(e.target);
-    console.log(e.currentTarget);
   };
 
   return (

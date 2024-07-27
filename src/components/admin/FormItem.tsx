@@ -24,7 +24,6 @@ const FormItem = ({
   };
 
   const onClickDelete = () => {
-    console.log("delete clicked");
     setOptionGroup((prev) => {
       const filteredForms = cloneDeep(prev.forms).filter(
         (form) => form.id !== userOption.id

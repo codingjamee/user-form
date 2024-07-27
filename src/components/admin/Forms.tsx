@@ -15,7 +15,6 @@ function Forms() {
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(optionGroup);
     try {
       const result = await fetch("/api/forms", {
         method: "POST",
@@ -26,7 +25,6 @@ function Forms() {
       });
       const response = await result.json();
       const responseId = response?.formId.split("_")[1];
-      console.log(response?.formId.split("_")[1]);
       navigate(`/user/forms/${responseId}`);
     } catch (err) {
       console.log(err);
