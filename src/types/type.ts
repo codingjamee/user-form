@@ -21,6 +21,23 @@ export interface FormPageData {
   forms: FormsData[];
 }
 
+export interface FormAnswer {
+  questionId?: string;
+  responses: Responses;
+}
+
+export interface Responses {
+  responseCount: number;
+  responsesField: Response[][];
+}
+
+export interface Response {
+  title: string;
+  checkedId: string | string[];
+}
+
+/* PROPS */
+
 export interface UserOptionProps {
   userOption: FormsData;
   optionGroup: FormPageData;
@@ -54,4 +71,24 @@ export interface OptionTitleProps {
   option: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
   onBlurFn: ({ newOption }: { newOption: FormsData }) => void;
+}
+
+export interface AdminPostProps {
+  body: FormPageData;
+  config?: RequestInit;
+}
+
+export interface AdminGetProps {
+  formId: string;
+}
+
+export interface AdminApiProps {
+  baseURL?: string;
+  headers?: any;
+}
+
+export interface PostProps {
+  url: string;
+  body?: FormPageData;
+  config?: any;
 }
