@@ -6,7 +6,7 @@ const useAdminQueries = () => {
     return adminApi.post({ url: "/forms", body, config });
   };
   const getResponseApi = (params: AdminGetProps) => {
-    return adminApi.get({ url: "/responses", config: { params } });
+    return adminApi.get({ url: "/responses", config: { ...params } });
   };
 
   return {
