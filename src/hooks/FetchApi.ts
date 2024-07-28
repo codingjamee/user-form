@@ -1,9 +1,10 @@
 import { AdminApiProps, Params, PostProps } from "../types/type";
 
 const mutateObjToParams = (paramsObj: Params) => {
-  Object.entries(paramsObj).reduce((prev, [key, value]) => {
-    return prev.concat(`?${key}=${value}`);
-  }, "");
+  return Object.entries(paramsObj).reduce(
+    (prev, [key, value]) => prev.concat(`?${key}=${value}`),
+    ""
+  );
 };
 
 const fetchApi = {
