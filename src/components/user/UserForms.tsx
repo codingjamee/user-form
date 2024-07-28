@@ -1,22 +1,17 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
-import useUserForm from "./hooks/useUserForm";
-import { createDefaultUserFormObj } from "../../util/utils";
-import { FormAnswer } from "../../types/type";
+import useUserForm, { usePostResponse } from "./hooks/useUserForm";
 import FormOptions from "./FormOptions";
+import useUserQueries from "../../hooks/useUserQueries";
 
 const UserForms = () => {
   const { formId } = useParams();
   const { data } = useUserForm({ formId });
-  const [groupOption, setGroupOption] = useState<FormAnswer | undefined>({
-    questionId: formId,
-    responses: createDefaultUserFormObj().responses,
-  });
+  const { groupOption, setGroupOption } = usePostResponse({ formId });
 
-  const onSubmitForm = () => {
-    //submit할 때 groupOption을 fetch로 보내기
+  const onSubmitForm = async () => {
+    const { postResponseApi } = useUserQueries();
+    await postResponseApi({ body: groupOption });
   };
-  console.log(data?.forms);
 
   return (
     <form className="app" onSubmit={onSubmitForm}>

@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import useAdminQueries from "../../../hooks/useAdminQueries";
-import { FormPageData } from "../../../types/type";
+import { FormAnswer, FormPageData } from "../../../types/type";
+import { createDefaultUserFormObj } from "../../../util/utils";
+import useUserQueries from "../../../hooks/useUserQueries";
 
 const useUserForm = ({ formId }: { formId?: string }) => {
   const [data, setData] = useState<FormPageData>();
-  const { getResponseApi } = useAdminQueries();
+  const { getFormApi } = useUserQueries();
 
   const getFormData = async () => {
     try {
-      const result = await getResponseApi({ formId: formId });
+      const result = await getFormApi(formId ? { formId: formId } : {});
       const resultText = await result.json();
       setData(resultText);
     } catch (err) {
@@ -23,4 +24,12 @@ const useUserForm = ({ formId }: { formId?: string }) => {
   return { data };
 };
 
-export default useUserForm;
+const usePostResponse = ({ formId }: { formId?: string }) => {
+  const [groupOption, setGroupOption] = useState<FormAnswer | undefined>({
+    questionId: formId,
+    responses: createDefaultUserFormObj().responses,
+  });
+  return { groupOption, setGroupOption };
+};
+
+export { useUserForm as default, usePostResponse };
