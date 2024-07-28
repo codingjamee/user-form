@@ -7,6 +7,7 @@ import { FormPageData } from "../../types/type.ts";
 import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 import { useNavigate } from "react-router-dom";
+import useAdminQueries from "../../hooks/useAdminQueries.ts";
 
 function Forms() {
   const copiedObj = createDefaultFormObj();
@@ -15,13 +16,10 @@ function Forms() {
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { postFormApi } = useAdminQueries();
     try {
-      const result = await fetch("/api/forms", {
-        method: "POST",
-        body: JSON.stringify(optionGroup),
-        headers: {
-          "Content-Type": "application/json",
-        },
+      const result = await postFormApi({
+        body: optionGroup,
       });
       const response = await result.json();
       const responseId = response?.formId.split("_")[1];
