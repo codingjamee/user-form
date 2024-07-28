@@ -1,7 +1,8 @@
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 
-const Home = () => {
+const AdminLayout = () => {
   const navigate = useNavigate();
+  const { formId } = useParams();
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
       <div
@@ -16,16 +17,16 @@ const Home = () => {
         <button
           className="btn"
           style={{ flex: 1 }}
-          onClick={() => navigate("/admin/forms")}
+          onClick={() => navigate(`/admin/forms/${formId}/edit`)}
         >
-          admin form
+          질문
         </button>
         <button
           className="btn"
           style={{ flex: 1 }}
-          onClick={() => navigate("/user/forms")}
+          onClick={() => navigate(`/admin/forms/${formId}/responses`)}
         >
-          user form
+          응답
         </button>
       </div>
       <Outlet />
@@ -33,4 +34,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default AdminLayout;
