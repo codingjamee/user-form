@@ -189,6 +189,10 @@ body {
   gap: 15px;
 }
 
+.app .title .zone input {
+  flex: 1;
+}
+
 .app .form {
   display: flex;
   flex-direction: column;

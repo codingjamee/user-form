@@ -1,4 +1,4 @@
-import { FormPageData } from "../types/type";
+import { FormAnswer, FormPageData } from "../types/type";
 import { ulid } from "ulid";
 
 export const getNextNumber = ({ prevNumber }: { prevNumber: number }) => {
@@ -46,4 +46,37 @@ export const createDefaultFormObj = (): FormPageData => {
       },
     ],
   };
+};
+
+export const createDefaultUserFormObj = (): FormAnswer => {
+  return {
+    questionId: "",
+    responses: {
+      responseCount: 0,
+      responsesField: [
+        [
+          {
+            title: "",
+            checkedId: [""],
+          },
+          {
+            title: "",
+            checkedId: ["", ""],
+          },
+        ],
+      ],
+    },
+  };
+};
+
+export const getInputType = ({ type }: { type: string }) => {
+  if (type === "1") {
+    return "checkbox";
+  }
+  if (type === "2") {
+    return "radio";
+  }
+  if (type === "3") {
+    return "text";
+  }
 };

@@ -79,16 +79,29 @@ export interface AdminPostProps {
 }
 
 export interface AdminGetProps {
-  formId: string;
+  formId?: string;
 }
 
 export interface AdminApiProps {
   baseURL?: string;
-  headers?: any;
+  headers?: HeadersInit;
+}
+
+export interface GetProps {
+  formId?: string;
 }
 
 export interface PostProps {
   url: string;
-  body?: FormPageData;
+  body?: FormPageData | FormAnswer;
   config?: any;
+}
+
+export interface Params {
+  [key: string]: string;
+}
+
+export interface postResponseApiProps {
+  body?: FormAnswer;
+  config?: ResponseInit;
 }

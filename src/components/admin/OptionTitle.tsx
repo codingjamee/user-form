@@ -30,7 +30,7 @@ const OptionTitle = ({ option, setOption, onBlurFn }: OptionTitleProps) => {
       >
         <option value="1">객관식 질문</option>
         <option value="2">체크박스</option>
-        <option value="3">드롭다운</option>
+        <option value="3">단답형</option>
       </select>
     </div>
   );
