@@ -10,9 +10,15 @@ export interface AsksData {
 
 export interface FormsData {
   id: string;
-  type: string;
+  type: "1" | "2" | "3";
   title: string;
   asks: AsksData[];
+  required: boolean;
+}
+
+export interface FormsAnswerData {
+  id: string;
+  answers: string[];
   required: boolean;
 }
 
@@ -21,19 +27,19 @@ export interface FormPageData {
   forms: FormsData[];
 }
 
-export interface FormAnswer {
-  questionId?: string;
-  responses: Responses;
+export interface FormAnswers {
+  responseId: string;
+  forms: FormResponses[];
 }
 
-export interface Responses {
-  responseCount: number;
-  responsesField: Response[][];
+export interface FormResponses {
+  id: string;
+  responses: FormAsks[];
 }
 
-export interface Response {
-  title: string;
-  checkedId: string | string[];
+export interface FormAsks {
+  questionId: string;
+  answer: string[];
 }
 
 /* PROPS */
@@ -93,7 +99,7 @@ export interface GetProps {
 
 export interface PostProps {
   url: string;
-  body?: FormPageData | FormAnswer;
+  body?: FormPageData | FormsAnswerData[];
   config?: any;
 }
 
@@ -102,6 +108,6 @@ export interface Params {
 }
 
 export interface postResponseApiProps {
-  body?: FormAnswer;
+  body?: FormsAnswerData[];
   config?: ResponseInit;
 }
