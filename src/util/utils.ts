@@ -1,4 +1,4 @@
-import { FormAnswer, FormPageData } from "../types/type";
+import { FormAnswers, FormPageData, FormsAnswerData } from "../types/type";
 import { ulid } from "ulid";
 
 export const getNextNumber = ({ prevNumber }: { prevNumber: number }) => {
@@ -48,24 +48,20 @@ export const createDefaultFormObj = (): FormPageData => {
   };
 };
 
-export const createDefaultUserFormObj = (): FormAnswer => {
+export const createDefaultUserFormObj = (): FormAnswers => {
   return {
-    questionId: "",
-    responses: {
-      responseCount: 0,
-      responsesField: [
-        [
+    responseId: ulid(),
+    forms: [
+      {
+        id: ulid(),
+        responses: [
           {
-            title: "",
-            checkedId: [""],
-          },
-          {
-            title: "",
-            checkedId: ["", ""],
+            questionId: ulid(),
+            answer: [""],
           },
         ],
-      ],
-    },
+      },
+    ],
   };
 };
 
@@ -79,4 +75,15 @@ export const getInputType = ({ type }: { type: string }) => {
   if (type === "3") {
     return "text";
   }
+};
+
+export const checkRequired = (forms: FormsAnswerData[]) => {
+  return forms
+    .map((form) => {
+      if (form.required && (!form.answers || form.answers.length < 1)) {
+        return false;
+      }
+      return true;
+    })
+    .every((value) => value === true);
 };
