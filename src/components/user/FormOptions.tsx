@@ -1,4 +1,4 @@
-import { FormsAnswerData, FormsData } from "../../types/type";
+import { FormsData } from "../../types/type";
 import { getInputType } from "../../util/utils";
 import styles from "./FormOptions.module.css";
 
