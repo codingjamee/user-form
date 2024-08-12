@@ -11,3 +11,10 @@ const Responses = () => {
 };
 
 export default Responses;
+
+/**
+ * 질문 title
+ * 응답 갯수
+ * 옵션에 대한 갯수
+ *
+ */

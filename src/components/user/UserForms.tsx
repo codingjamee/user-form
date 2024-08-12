@@ -4,6 +4,7 @@ import FormOptions from "./FormOptions";
 import useUserQueries from "../../hooks/useUserQueries";
 import { FormEvent } from "react";
 import { checkRequired } from "../../util/utils";
+import { ulid } from "ulid";
 
 const UserForms = () => {
   const { formId } = useParams();
@@ -19,7 +20,10 @@ const UserForms = () => {
     const checkResult = checkRequired(answer);
     if (!checkResult) return alert("필수값을 입력해주세요");
 
-    const result = await postResponseApi({ body: answer });
+    const result = await postResponseApi({
+      body: answer,
+      config: { formId: formId },
+    });
     console.log(result);
     if (result.ok) {
       alert("제출 성공");

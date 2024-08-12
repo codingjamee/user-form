@@ -12,7 +12,7 @@ const useUserForm = ({ formId }: { formId?: string }) => {
       const resultText = await result.json();
       setData(resultText);
     } catch (err) {
-      console.log(err);
+      alert("에러 발생");
     }
   };
 

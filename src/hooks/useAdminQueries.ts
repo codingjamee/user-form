@@ -8,10 +8,14 @@ const useAdminQueries = () => {
   const getResponseApi = (params: AdminGetProps) => {
     return adminApi.get({ url: "/responses", config: { ...params } });
   };
+  const getFormApi = (params?: {}) => {
+    return adminApi.get({ url: "/forms", config: { ...params } });
+  };
 
   return {
     postFormApi,
     getResponseApi,
+    getFormApi,
   };
 };
 

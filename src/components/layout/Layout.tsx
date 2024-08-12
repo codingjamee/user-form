@@ -1,18 +1,10 @@
 import { Outlet, useNavigate } from "react-router-dom";
-
+import styles from "./layout.module.css";
 const Layout = () => {
   const navigate = useNavigate();
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-      <div
-        style={{
-          width: "640px",
-          display: "flex",
-          flex: 1,
-          height: "20px",
-          gap: "10px",
-        }}
-      >
+    <div className={`${styles["layout-wrapper"]}`}>
+      <div className={`${styles["layout"]}`}>
         <button
           className="btn"
           style={{ flex: 1 }}

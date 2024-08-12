@@ -14,20 +14,19 @@
 ### USER FORM
 
 - [x] 발행된 폼으로 응답 입력 할 수 있게 하기
-- [ ] 유저가 click시 form option array를 설정할 수 있도록
-  - [ ] 해제 시 해당 id를 array에서 비울 수 있도록
-- [ ] 제출 시 required 필드를 확인하여 비어있다면 제출이 되지 않고 alert문구 뜨게
+- [x] 유저가 click시 form option array를 설정할 수 있도록
+  - [x] 해제 시 해당 id를 array에서 비울 수 있도록
+- [x] 제출 시 required 필드를 확인하여 비어있다면 제출이 되지 않고 alert문구 뜨게
 - [x] 제출 시 api에서 유저 응답 데이터 받기
-- [ ] admin에 응답한 사람 데이터 받기 (성별 받는 기능 필요?)
+- [x] admin에 응답한 데이터 받기
 
 ### 구글폼 admin 생성 및 응답 확인
 
 - 질문 생성하기 /forms/${formId}/edit
 
-  - [ ] 프론트에서 ulid설정
+  - [x] 프론트에서 ulid설정
   - 제출 시
-    - [ ] 제출시 ulid 포함하지 않게하기
-    - [ ] 제출 후 백엔드에서 생성응답 준 id로 navigate
+    - [x] 제출 후 id로 navigate
 
 - 응답 확인하기 /forms/${formId}/responses
   - [ ] 제출 전 : 응답 버튼 보여주지 않게 ?
