@@ -12,13 +12,6 @@ const Layout = () => {
         >
           admin form
         </button>
-        <button
-          className="btn"
-          style={{ flex: 1 }}
-          onClick={() => navigate("/user/forms")}
-        >
-          user form
-        </button>
       </div>
       <Outlet />
     </div>

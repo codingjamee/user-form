@@ -111,3 +111,13 @@ export interface postResponseApiProps {
   body?: FormsAnswerData[];
   config?: ResponseInit;
 }
+
+export interface FormsLists {
+  key: string;
+  title: TitleInfo;
+}
+
+export interface TitleInfo {
+  title: string;
+  desc: string;
+}

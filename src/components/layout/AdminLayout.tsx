@@ -23,6 +23,9 @@ const AdminLayout = () => {
         </button>
       </div>
       <Outlet />
+      <button className="btn" onClick={() => navigate(`/user/forms/${formId}`)}>
+        유저
+      </button>
     </div>
   );
 };

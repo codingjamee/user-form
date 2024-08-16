@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FormPageData, FormsAnswerData } from "../../../types/type";
 import useUserQueries from "../../../hooks/useUserQueries";
+import { ulid } from "ulid";
 
 const useUserForm = ({ formId }: { formId?: string }) => {
   const [data, setData] = useState<FormPageData>();
@@ -40,6 +41,7 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
       setAnswer(
         data.forms.map((form) => ({
           id: form.id,
+          answerId: ulid(),
           answers: [],
           required: form.required ? form.required : false,
         }))
