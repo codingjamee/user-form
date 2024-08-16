@@ -1,10 +1,17 @@
-const responseArr = { responseCount: 1, responses: [] };
+import { useParams } from "react-router-dom";
+import useResponses from "./hooks/useResponses";
 
 const Responses = () => {
   //응답이 오면 보여주기
 
+  const { summary, formId } = useParams();
+  console.log(formId);
+  useResponses({ formId });
+
+  console.log(summary);
+
   return (
-    <div>
+    <div style={{ flex: 1 }}>
       <div>응답 {}</div>
     </div>
   );
