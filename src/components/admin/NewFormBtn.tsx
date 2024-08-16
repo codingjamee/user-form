@@ -1,40 +1,55 @@
 import { useNavigate } from "react-router-dom";
 import { ulid } from "ulid";
 import useAdminForm from "./hooks/useAdminForm";
+import styles from "./newFormBtn.module.css";
 
 const NewFormBtn = () => {
   const navigate = useNavigate();
   const formId = ulid();
   const { lists } = useAdminForm();
 
+  const onCopyClick = ({ key }: { key: string }) => {
+    const urlToCopy = `/user/forms/${key}`;
+    navigator.clipboard
+      .writeText(urlToCopy)
+      .then(() => {
+        alert("URL이 클립보드에 복사되었습니다!");
+      })
+      .catch((err) => {
+        console.error("복사에 실패했습니다:", err);
+      });
+  };
+
+  console.log(lists);
+
   return (
     <>
-      <ul
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "20px",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <ul className={styles.wrapper}>
         {lists &&
           lists?.map((list) => (
-            <li
-              onClick={() => navigate(`/admin/forms/${list.key}/responses`)}
-              style={{
-                border: "1px solid rgb(218, 220, 224)",
-                borderRadius: "4px",
-                padding: "10px",
-                width: "50%",
-                cursor: "pointer",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <div style={{ fontSize: "20px" }}>제목 : {list.title.title}</div>
-              <div>({list.title.desc})</div>
-            </li>
+            <div className={styles["flex-wrapper"]} key={list.key}>
+              <li
+                onClick={() => navigate(`/admin/forms/${list.key}/responses`)}
+                className={styles.list}
+              >
+                <div style={{ fontSize: "20px" }}>
+                  제목 : {list.title.title}
+                </div>
+                <div>({list.title.desc})</div>
+              </li>
+              <div
+                className={styles.clip}
+                onClick={() => onCopyClick({ key: list.key })}
+              >
+                유저 url 복사
+              </div>
+              <div
+                className={styles.clip}
+                onClick={() => navigate(`/user/forms/${list.key}`)}
+              >
+                유저 페이지 이동
+              </div>
+            </div>
           ))}
       </ul>
       <button
