@@ -20,7 +20,7 @@ const NewFormBtn = () => {
       });
   };
 
-  console.log(lists);
+  // console.log(lists);
 
   return (
     <>

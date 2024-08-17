@@ -48,10 +48,6 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
       );
   }, [data]);
 
-  useEffect(() => {
-    console.log(answer);
-  }, [answer]);
-
   const onChangeDataFn = ({
     type,
     value,
@@ -83,7 +79,6 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
 
     if (type === "2") {
       //radio
-      console.log(dataId);
       if (changedForms) changedForms.answers = [dataId];
     }
 

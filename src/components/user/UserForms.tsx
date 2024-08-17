@@ -23,7 +23,6 @@ const UserForms = () => {
       body: answer,
       config: { formId: formId },
     });
-    console.log(result);
     if (result.ok) {
       alert("제출 성공");
       navigate("/");
@@ -70,14 +69,7 @@ const UserForms = () => {
             ))}
         </article>
       </div>
-      <button
-        className="btn"
-        type="submit"
-        style={{ width: "640px" }}
-        onClick={() => {
-          console.log("제출버튼 클릭");
-        }}
-      >
+      <button className="btn" type="submit" style={{ width: "640px" }}>
         제출
       </button>
     </form>

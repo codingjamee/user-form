@@ -13,9 +13,7 @@ const useResponses = ({ formId }: { formId?: string }) => {
       const result = await getResponseApi({ formId });
       // const data = await result.json();
       const data = await result.json();
-      console.log(data);
       if (data) {
-        console.log(data);
         setSummary(data);
       }
     } catch (err) {

@@ -7,7 +7,6 @@ interface CustomLabelProps extends PieLabelRenderProps {
 }
 
 const MyPieChart = ({ data }: { data: ResponseData }) => {
-  console.log(data);
   const COLORS = [
     "#a85d87",
     "#ffa3a7",
