@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import useAdminQueries from "../../../hooks/useAdminQueries";
+import { SummaryResponse } from "../../../types/type";
 
 const useResponses = ({ formId }: { formId?: string }) => {
-  const [summary, setSummary] = useState();
+  const [summary, setSummary] = useState<SummaryResponse>();
 
   const { getResponseApi } = useAdminQueries();
 
@@ -13,7 +14,7 @@ const useResponses = ({ formId }: { formId?: string }) => {
       // const data = await result.json();
       const data = await result.json();
       console.log(data);
-      if (data.ok) {
+      if (data) {
         console.log(data);
         setSummary(data);
       }

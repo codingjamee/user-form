@@ -1,0 +1,41 @@
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.response-count {
+  font-size: 25px;
+  height: 100px;
+  width: 100%;
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.responses {
+  padding: 20px 0;
+  width: 100%;
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.response {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 90%;
+}
+
+.response-box {
+  border: 1px solid rgb(218, 220, 224);
+  border-radius: 8px;
+  padding: 20px;
+}

@@ -107,9 +107,13 @@ export interface Params {
   [key: string]: string;
 }
 
+interface CustomResponseInit extends ResponseInit {
+  formId?: string;
+}
+
 export interface postResponseApiProps {
   body?: FormsAnswerData[];
-  config?: ResponseInit;
+  config?: CustomResponseInit;
 }
 
 export interface FormsLists {
@@ -120,4 +124,26 @@ export interface FormsLists {
 export interface TitleInfo {
   title: string;
   desc: string;
+}
+
+export interface Answer {
+  id: string;
+  name: string;
+  count: number;
+}
+
+export interface ResponseData {
+  id: string;
+  title: string;
+  answers: Answer[];
+}
+
+export interface Data {
+  responseCount: number;
+  title: string;
+  responses: ResponseData[];
+}
+
+export interface SummaryResponse {
+  data: Data;
 }
