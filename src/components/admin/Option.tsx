@@ -12,7 +12,7 @@ const Option = ({
   onBlurGroupFn,
 }: OptionProps) => {
   const [optionDesc, setOptionDesc] = useState<AsksData>(cloneDeep(option));
-  const onBlurFn = () => {
+  const handleBlur = () => {
     const updatedOptions = cloneDeep(userOption.asks);
     updatedOptions[index] = optionDesc;
 
@@ -40,7 +40,7 @@ const Option = ({
   };
 
   return (
-    <section className="options" onBlur={onBlurFn}>
+    <section className="options" onBlur={handleBlur}>
       <div className={optionClass}>
         {optionClass === "number"
           ? getNextNumber({ prevNumber: index }) ?? null

@@ -1,6 +1,6 @@
 import { OptionTitleProps } from "../../types/type";
 
-const OptionTitle = ({ option, setOption, onBlurFn }: OptionTitleProps) => {
+const OptionTitle = ({ option, setOption, handleBlur }: OptionTitleProps) => {
   return (
     <div className="box">
       <input
@@ -13,7 +13,7 @@ const OptionTitle = ({ option, setOption, onBlurFn }: OptionTitleProps) => {
             title: e.target.value,
           };
           setOption(newOption);
-          onBlurFn({ newOption });
+          handleBlur({ newOption });
         }}
       />
       <select
@@ -25,7 +25,7 @@ const OptionTitle = ({ option, setOption, onBlurFn }: OptionTitleProps) => {
             type: e.target.value,
           };
           setOption(newOption);
-          onBlurFn({ newOption });
+          handleBlur({ newOption });
         }}
       >
         <option value="1">객관식 질문</option>

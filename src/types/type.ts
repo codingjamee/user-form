@@ -76,7 +76,7 @@ export interface OptionProps {
 export interface OptionTitleProps {
   option: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  onBlurFn: ({ newOption }: { newOption: FormsData }) => void;
+  handleBlur: ({ newOption }: { newOption: FormsData }) => void;
 }
 
 export interface AdminPostProps {

@@ -15,21 +15,39 @@ const FormItem = ({
     cloneDeep(optionGroup.forms[index])
   );
 
-  const onBlurFn = ({ newOption }: { newOption: FormsData }) => {
-    setOptionGroup((prev) => {
-      const updatedForms = cloneDeep(prev.forms);
-      updatedForms[index] = newOption;
-      return { ...cloneDeep(prev), forms: updatedForms };
-    });
+  const updateOptionGroup = ({
+    newOption,
+    deleteId,
+    type = "update",
+  }: {
+    newOption?: FormsData;
+    deleteId?: string;
+    type?: "update" | "delete";
+  }) => {
+    if (type === "update" && newOption) {
+      return setOptionGroup((prev) => {
+        const updatedForms = cloneDeep(prev.forms);
+        updatedForms[index] = newOption;
+        return { ...cloneDeep(prev), forms: updatedForms };
+      });
+    }
+
+    if (type === "delete") {
+      return setOptionGroup((prev) => {
+        const filteredForms = cloneDeep(prev.forms).filter(
+          (form) => form.id !== deleteId
+        );
+        return { ...cloneDeep(prev), forms: filteredForms };
+      });
+    }
+  };
+
+  const handleBlur = ({ newOption }: { newOption: FormsData }) => {
+    updateOptionGroup({ newOption });
   };
 
   const onClickDelete = () => {
-    setOptionGroup((prev) => {
-      const filteredForms = cloneDeep(prev.forms).filter(
-        (form) => form.id !== userOption.id
-      );
-      return { ...cloneDeep(prev), forms: filteredForms };
-    });
+    updateOptionGroup({ deleteId: userOption.id, type: "delete" });
   };
 
   const onClickAdd = useCallback(
@@ -43,7 +61,7 @@ const FormItem = ({
       };
 
       setOption(newOption);
-      onBlurFn({ newOption });
+      handleBlur({ newOption });
     },
     [setOption, index, option]
   );
@@ -55,12 +73,12 @@ const FormItem = ({
     <div style={{ display: "flex", gap: "10px" }}>
       <article
         className="user-section"
-        onBlur={() => onBlurFn({ newOption: option })}
+        onBlur={() => handleBlur({ newOption: option })}
       >
         <OptionTitle
           option={option}
           setOption={setOption}
-          onBlurFn={onBlurFn}
+          handleBlur={handleBlur}
         />
 
         {userOption.asks.map((option, index) => (
@@ -71,7 +89,7 @@ const FormItem = ({
             index={index}
             option={option}
             setOption={setOption}
-            onBlurGroupFn={onBlurFn}
+            onBlurGroupFn={handleBlur}
           />
         ))}
         <section className="add" onClick={onClickAdd}>
