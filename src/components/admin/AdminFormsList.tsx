@@ -3,7 +3,7 @@ import { ulid } from "ulid";
 import useAdminForm from "./hooks/useAdminForm";
 import styles from "./newFormBtn.module.css";
 
-const NewFormBtn = () => {
+const AdminFormsList = () => {
   const navigate = useNavigate();
   const formId = ulid();
   const { lists } = useAdminForm();
@@ -29,7 +29,7 @@ const NewFormBtn = () => {
           lists?.map((list) => (
             <div className={styles["flex-wrapper"]} key={list.key}>
               <li
-                onClick={() => navigate(`/admin/forms/${list.key}/responses`)}
+                onClick={() => navigate(`/admin/forms/${list.key}/result`)}
                 className={styles.list}
               >
                 <div style={{ fontSize: "20px" }}>
@@ -63,7 +63,7 @@ const NewFormBtn = () => {
   );
 };
 
-export default NewFormBtn;
+export default AdminFormsList;
 
 /**
  * 질문 id들 보여주기

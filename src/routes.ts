@@ -1,5 +1,5 @@
+import AdminFormsList from "./components/admin/AdminFormsList";
 import Forms from "./components/admin/Forms";
-import NewFormBtn from "./components/admin/NewFormBtn";
 import Responses from "./components/admin/Responses";
 import AdminLayout from "./components/layout/AdminLayout";
 import Layout from "./components/layout/Layout";
@@ -28,7 +28,7 @@ export const routes: RoutesProps[] = [
         children: [
           {
             name: "newForm",
-            element: NewFormBtn,
+            element: AdminFormsList,
             path: "/admin/forms",
           },
           {

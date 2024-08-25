@@ -10,7 +10,7 @@ const AdminLayout = () => {
         <button
           className="btn"
           style={{ flex: 1 }}
-          onClick={() => navigate(`/admin/forms/${formId}/responses`)}
+          onClick={() => navigate(`/admin/forms/${formId}/result`)}
         >
           요약
         </button>

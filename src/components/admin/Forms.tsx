@@ -55,7 +55,7 @@ function Forms() {
 
         <FormAdd onClickAdd={onClickAdd} />
         <button type="submit" className="btn submitBtn">
-          제출
+          제출 
         </button>
       </form>
     </div>
