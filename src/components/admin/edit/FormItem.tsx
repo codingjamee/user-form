@@ -1,8 +1,8 @@
 import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
-import { createDefaultFormObj, getClassName } from "../../util/utils";
-import { AsksData, FormsData, UserOptionProps } from "../../types/type";
+import { createDefaultFormObj, getClassName } from "../../../util/utils";
+import { AsksData, FormsData, UserOptionProps } from "../../../types/type";
 import cloneDeep from "lodash.clonedeep";
 
 const FormItem = ({

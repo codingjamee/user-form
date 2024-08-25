@@ -1,6 +1,6 @@
 import { MouseEvent, useState } from "react";
-import { AsksData, OptionProps } from "../../types/type";
-import { getNextNumber } from "../../util/utils";
+import { AsksData, OptionProps } from "../../../types/type";
+import { getNextNumber } from "../../../util/utils";
 import cloneDeep from "lodash.clonedeep";
 
 const Option = ({

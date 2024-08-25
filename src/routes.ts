@@ -1,9 +1,9 @@
-import AdminFormsList from "./components/admin/AdminFormsList";
-import Forms from "./components/admin/Forms";
-import Responses from "./components/admin/Responses";
+import AdminFormsList from "./components/admin/edit/AdminFormsList";
 import AdminLayout from "./components/layout/AdminLayout";
 import Layout from "./components/layout/Layout";
 import UserForms from "./components/user/UserForms";
+import AdminForms from "./components/admin/edit/AdminForms";
+import AdminResponses from "./components/admin/response/AdminResponses";
 
 export interface RoutesProps {
   name: string;
@@ -11,6 +11,9 @@ export interface RoutesProps {
   element: () => JSX.Element;
   children?: RoutesProps[];
 }
+
+//TODO: path constant로 관리해보기
+//TODO: 컴포넌트명 읽기 쉽게 수정해보기
 
 export const routes: RoutesProps[] = [
   {
@@ -33,12 +36,12 @@ export const routes: RoutesProps[] = [
           },
           {
             name: "adminForms",
-            element: Forms,
+            element: AdminForms,
             path: "/admin/forms/:formId/edit",
           },
           {
             name: "adminFormResult",
-            element: Responses,
+            element: AdminResponses,
             path: "/admin/forms/:formId/result",
           },
         ],

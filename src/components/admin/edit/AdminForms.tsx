@@ -1,15 +1,15 @@
 import { useState, FormEvent } from "react";
-import "../../App.css";
+import '../../../App.css'
 import FormTitle from "./FormTitle.tsx";
 import FormAdd from "./FormAdd.tsx";
-import { createDefaultFormObj } from "../../util/utils.ts";
-import { FormPageData } from "../../types/type.ts";
+import { createDefaultFormObj } from "../../../util/utils.ts";
+import { FormPageData } from "../../../types/type.ts";
 import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 import { useNavigate } from "react-router-dom";
-import useAdminQueries from "../../hooks/useAdminQueries.ts";
+import useAdminQueries from "../../../hooks/useAdminQueries.ts";
 
-function Forms() {
+function AdminForms() {
   const copiedObj = createDefaultFormObj();
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
   const navigate = useNavigate();
@@ -62,4 +62,4 @@ function Forms() {
   );
 }
 
-export default Forms;
+export default AdminForms;

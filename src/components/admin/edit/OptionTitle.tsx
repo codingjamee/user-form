@@ -1,4 +1,4 @@
-import { OptionTitleProps } from "../../types/type";
+import { OptionTitleProps } from "../../../types/type";
 
 const OptionTitle = ({ option, setOption, handleBlur }: OptionTitleProps) => {
   return (

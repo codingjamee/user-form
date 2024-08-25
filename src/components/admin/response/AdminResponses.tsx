@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
-import useResponses from "./hooks/useResponses";
-import MyPieChart from "../common/MyPieChart";
 import styles from "./responses.module.css";
+import useResponses from "../hooks/useResponses";
+import MyPieChart from "../../common/MyPieChart";
 
-const Responses = () => {
+const AdminResponses = () => {
   //응답이 오면 보여주기
 
   const { formId } = useParams();
@@ -36,4 +36,4 @@ const Responses = () => {
   );
 };
 
-export default Responses;
+export default AdminResponses;

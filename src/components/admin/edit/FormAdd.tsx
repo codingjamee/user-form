@@ -1,4 +1,4 @@
-import { FormAddProps } from "../../types/type";
+import { FormAddProps } from "../../../types/type";
 
 const FormAdd = ({ onClickAdd }: FormAddProps) => {
   return (

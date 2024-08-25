@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ulid } from "ulid";
-import useAdminForm from "./hooks/useAdminForm";
+import useAdminForm from "../hooks/useAdminForm";
 import styles from "./adminFormsList.module.css";
 
 const AdminFormsList = () => {
