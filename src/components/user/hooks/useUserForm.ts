@@ -54,7 +54,7 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
     dataId,
     formId,
   }: {
-    type: "1" | "2" | "3";
+    type: "checkbox" | "radio" | "text";
     value: string;
     dataId: string;
     formId: string;
@@ -62,7 +62,7 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
     const newForms: FormsAnswerData[] = answer ? [...answer] : [];
     const changedForms = newForms.find((form) => form.id === formId);
     const isThereSelectedAnswerId = changedForms?.answers.includes(dataId);
-    if (type === "1") {
+    if (type === "checkbox") {
       //checkbox
       if (changedForms && isThereSelectedAnswerId) {
         changedForms.answers = changedForms.answers.filter(
@@ -77,12 +77,12 @@ const usePostResponse = ({ data }: { data: FormPageData | undefined }) => {
       // return;
     }
 
-    if (type === "2") {
+    if (type === "radio") {
       //radio
       if (changedForms) changedForms.answers = [dataId];
     }
 
-    if (type === "3") {
+    if (type === "text") {
       // subjective
       if (changedForms) changedForms.answers[0] = value;
     }

@@ -10,7 +10,7 @@ export interface AsksData {
 
 export interface FormsData {
   id: string;
-  type: "1" | "2" | "3";
+  type: "checkbox" | "radio" | "text";
   title: string;
   asks: AsksData[];
   required: boolean;

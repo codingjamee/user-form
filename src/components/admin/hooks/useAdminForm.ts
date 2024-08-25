@@ -3,7 +3,7 @@ import useAdminQueries from "../../../hooks/useAdminQueries";
 import { FormsLists } from "../../../types/type";
 
 const useAdminForm = () => {
-  const [lists, setLists] = useState<FormsLists[]>();
+  const [lists, setLists] = useState<FormsLists[]>([]);
   const { getFormApi } = useAdminQueries();
 
   const getAdminForm = async () => {

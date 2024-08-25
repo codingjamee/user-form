@@ -65,6 +65,8 @@ export const createDefaultUserFormObj = (): FormAnswers => {
   };
 };
 
+//삭제예정
+
 export const getInputType = ({ type }: { type: string }) => {
   if (type === "1") {
     return "checkbox";

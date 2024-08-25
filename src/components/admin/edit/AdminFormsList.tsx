@@ -25,32 +25,29 @@ const AdminFormsList = () => {
   return (
     <>
       <ul className={styles.wrapper}>
-        {lists &&
-          lists?.map((list) => (
-            <div className={styles["flex-wrapper"]} key={list.key}>
-              <li
-                onClick={() => navigate(`/admin/forms/${list.key}/result`)}
-                className={styles.list}
-              >
-                <div style={{ fontSize: "20px" }}>
-                  제목 : {list.title.title}
-                </div>
-                <div>({list.title.desc})</div>
-              </li>
-              <div
-                className={styles.clip}
-                onClick={() => onCopyClick({ key: list.key })}
-              >
-                유저 url 복사
-              </div>
-              <div
-                className={styles.clip}
-                onClick={() => navigate(`/user/forms/${list.key}`)}
-              >
-                유저 페이지 이동
-              </div>
+        {lists.map((list) => (
+          <div className={styles["flex-wrapper"]} key={list.key}>
+            <li
+              onClick={() => navigate(`/admin/forms/${list.key}/result`)}
+              className={styles.list}
+            >
+              <div style={{ fontSize: "20px" }}>제목 : {list.title.title}</div>
+              <div>({list.title.desc})</div>
+            </li>
+            <div
+              className={styles.clip}
+              onClick={() => onCopyClick({ key: list.key })}
+            >
+              유저 url 복사
             </div>
-          ))}
+            <div
+              className={styles.clip}
+              onClick={() => navigate(`/user/forms/${list.key}`)}
+            >
+              유저 페이지 이동
+            </div>
+          </div>
+        ))}
       </ul>
       <button
         className="btn"

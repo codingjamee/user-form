@@ -13,7 +13,7 @@ const FormOptions = ({
     dataId,
     formId,
   }: {
-    type: "1" | "2" | "3";
+    type: "checkbox" | "radio" | "text";
     value: string;
     dataId: string;
     formId: string;
@@ -32,15 +32,11 @@ const FormOptions = ({
           <div className={styles["ask"]} key={ask?.id}>
             <input
               className={`${styles["input"]} ${
-                getInputType({ type: form.type }) === "text" && styles["text"]
+                form.type === "text" && styles["text"]
               }`}
-              type={getInputType({ type: form.type })}
+              type={form.type}
               id={ask.id}
-              name={
-                getInputType({ type: form.type }) === "radio"
-                  ? form.id
-                  : undefined
-              }
+              name={form.type === "radio" ? form.id : undefined}
               onChange={(e) => {
                 onChangeDataFn({
                   type: form.type,
