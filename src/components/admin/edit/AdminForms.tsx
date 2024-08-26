@@ -1,25 +1,30 @@
 import { useState, FormEvent } from "react";
-import "../../App.css";
+import "../../../App.css";
 import FormTitle from "./FormTitle.tsx";
 import FormAdd from "./FormAdd.tsx";
-import { createDefaultFormObj } from "../../util/utils.ts";
-import { FormPageData } from "../../types/type.ts";
+import { createDefaultFormObj } from "../../../util/utils.ts";
+import { FormPageData } from "../../../types/type.ts";
 import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
+import { useNavigate } from "react-router-dom";
+import useAdminQueries from "../../../hooks/useAdminQueries.ts";
+import { getRoutePath } from "../../../util/constants.ts";
 
-function Forms() {
+function AdminForms() {
   const copiedObj = createDefaultFormObj();
   const [optionGroup, setOptionGroup] = useState<FormPageData>(copiedObj);
+  const navigate = useNavigate();
 
   const onClickSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const { postFormApi } = useAdminQueries();
     try {
-      const result = await fetch("/api", {
-        method: "POST",
-        body: JSON.stringify(optionGroup),
+      const result = await postFormApi({
+        body: optionGroup,
       });
       const response = await result.json();
-      console.log(response);
+      const responseId = response?.formId.split("_")[1];
+      navigate(`${getRoutePath.userResponses(responseId)}`);
     } catch (err) {
       console.log(err);
     }
@@ -58,4 +63,4 @@ function Forms() {
   );
 }
 
-export default Forms;
+export default AdminForms;

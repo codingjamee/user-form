@@ -3,6 +3,9 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  box-sizing: border-box;
+  min-height: 100vh;
+  display: flex;
 }
 
 .logo {

@@ -1,4 +1,4 @@
-import { FormPageData } from "../types/type";
+import { FormAnswers, FormPageData, FormsAnswerData } from "../types/type";
 import { ulid } from "ulid";
 
 export const getNextNumber = ({ prevNumber }: { prevNumber: number }) => {
@@ -36,7 +36,7 @@ export const createDefaultFormObj = (): FormPageData => {
         id: ulid(),
         title: "",
         required: false,
-        type: "1",
+        type: "checkbox",
         asks: [
           {
             id: ulid(),
@@ -46,4 +46,46 @@ export const createDefaultFormObj = (): FormPageData => {
       },
     ],
   };
+};
+
+export const createDefaultUserFormObj = (): FormAnswers => {
+  return {
+    responseId: ulid(),
+    forms: [
+      {
+        id: ulid(),
+        responses: [
+          {
+            questionId: ulid(),
+            answer: [""],
+          },
+        ],
+      },
+    ],
+  };
+};
+
+//삭제예정
+
+export const getInputType = ({ type }: { type: string }) => {
+  if (type === "1") {
+    return "checkbox";
+  }
+  if (type === "2") {
+    return "radio";
+  }
+  if (type === "3") {
+    return "text";
+  }
+};
+
+export const checkRequired = (forms: FormsAnswerData[]) => {
+  return forms
+    .map((form) => {
+      if (form.required && (!form.answers || form.answers.length < 1)) {
+        return false;
+      }
+      return true;
+    })
+    .every((value) => value === true);
 };

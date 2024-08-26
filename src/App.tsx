@@ -1,18 +1,21 @@
 import { Route, Routes } from "react-router-dom";
-import Forms from "./components/admin/Forms.tsx";
-import UserForms from "./components/user/UserForms.tsx";
-import Home from "./components/home/Home.tsx";
+
+import { routes, RoutesProps } from "./routes.ts";
 
 function App() {
-  return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route element={<Home />}>
-        <Route path="/admin/forms" element={<Forms />} />
-        <Route path="/user/forms" element={<UserForms />} />
-      </Route>
-    </Routes>
-  );
+  const returnRoutes = (returnRoute: RoutesProps[]) => {
+    return returnRoute.map((route) => {
+      if (!route.children)
+        return <Route path={route.path} element={<route.element />} />;
+      if (route.children)
+        return (
+          <Route path={route.path} element={<route.element />}>
+            {returnRoutes(route.children)}
+          </Route>
+        );
+    });
+  };
+  return <Routes>{returnRoutes(routes)}</Routes>;
 }
 
 export default App;
