@@ -24,7 +24,7 @@ const FormItem = ({
     deleteId?: string;
     type?: "update" | "delete";
   }) => {
-    if (type === "update" && newOption) {
+    if (type === "update" && newOption && !deleteId) {
       return setOptionGroup((prev) => {
         const updatedForms = cloneDeep(prev.forms);
         updatedForms[index] = newOption;
@@ -32,7 +32,7 @@ const FormItem = ({
       });
     }
 
-    if (type === "delete") {
+    if (type === "delete" && deleteId && !newOption) {
       return setOptionGroup((prev) => {
         const filteredForms = cloneDeep(prev.forms).filter(
           (form) => form.id !== deleteId
@@ -61,7 +61,7 @@ const FormItem = ({
       };
 
       setOption(newOption);
-      handleBlur({ newOption });
+      updateOptionGroup({ newOption });
     },
     [setOption, index, option]
   );

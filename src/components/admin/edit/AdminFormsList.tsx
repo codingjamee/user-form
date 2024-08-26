@@ -20,6 +20,10 @@ const AdminFormsList = () => {
       });
   };
 
+  if (lists.length === 0) {
+    return <div>Loading...</div>;
+  }
+
   // console.log(lists);
 
   return (
