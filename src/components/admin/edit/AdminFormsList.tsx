@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { ulid } from "ulid";
 import useAdminForm from "../hooks/useAdminForm";
 import styles from "./adminFormsList.module.css";
+import copyClipboard from "../../../hooks/copyClipboard";
 
 const AdminFormsList = () => {
   const navigate = useNavigate();
@@ -9,22 +10,11 @@ const AdminFormsList = () => {
   const { lists } = useAdminForm();
 
   const onCopyClick = ({ key }: { key: string }) => {
-    const urlToCopy = `/user/forms/${key}`;
-    navigator.clipboard
-      .writeText(urlToCopy)
-      .then(() => {
-        alert("URL이 클립보드에 복사되었습니다!");
-      })
-      .catch((err) => {
-        console.error("복사에 실패했습니다:", err);
-      });
+    copyClipboard({ urlToCopy: `/user/forms/${key}` });
   };
-
   if (lists.length === 0) {
     return <div>Loading...</div>;
   }
-
-  // console.log(lists);
 
   return (
     <>
