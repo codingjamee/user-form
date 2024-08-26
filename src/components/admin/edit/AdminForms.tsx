@@ -1,5 +1,5 @@
 import { useState, FormEvent } from "react";
-import '../../../App.css'
+import "../../../App.css";
 import FormTitle from "./FormTitle.tsx";
 import FormAdd from "./FormAdd.tsx";
 import { createDefaultFormObj } from "../../../util/utils.ts";
@@ -8,6 +8,7 @@ import FormItem from "./FormItem.tsx";
 import cloneDeep from "lodash.clonedeep";
 import { useNavigate } from "react-router-dom";
 import useAdminQueries from "../../../hooks/useAdminQueries.ts";
+import { getRoutePath } from "../../../util/constants.ts";
 
 function AdminForms() {
   const copiedObj = createDefaultFormObj();
@@ -23,7 +24,7 @@ function AdminForms() {
       });
       const response = await result.json();
       const responseId = response?.formId.split("_")[1];
-      navigate(`/user/forms/${responseId}`);
+      navigate(`${getRoutePath.userResponses(responseId)}`);
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +56,7 @@ function AdminForms() {
 
         <FormAdd onClickAdd={onClickAdd} />
         <button type="submit" className="btn submitBtn">
-          제출 
+          제출
         </button>
       </form>
     </div>

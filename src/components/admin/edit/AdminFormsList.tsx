@@ -3,6 +3,7 @@ import { ulid } from "ulid";
 import useAdminForm from "../hooks/useAdminForm";
 import styles from "./adminFormsList.module.css";
 import copyClipboard from "../../../hooks/copyClipboard";
+import { getRoutePath } from "../../../util/constants";
 
 const AdminFormsList = () => {
   const navigate = useNavigate();
@@ -10,7 +11,8 @@ const AdminFormsList = () => {
   const { lists } = useAdminForm();
 
   const onCopyClick = ({ key }: { key: string }) => {
-    copyClipboard({ urlToCopy: `/user/forms/${key}` });
+    // copyClipboard({ urlToCopy: `/user/forms/${key}` });
+    copyClipboard({ urlToCopy: getRoutePath.userResponses(key) });
   };
   if (lists.length === 0) {
     return <div>Loading...</div>;
@@ -22,7 +24,7 @@ const AdminFormsList = () => {
         {lists.map((list) => (
           <div className={styles["flex-wrapper"]} key={list.key}>
             <li
-              onClick={() => navigate(`/admin/forms/${list.key}/result`)}
+              onClick={() => navigate(getRoutePath.adminForms(list.key))}
               className={styles.list}
             >
               <div style={{ fontSize: "20px" }}>제목 : {list.title.title}</div>
@@ -36,7 +38,7 @@ const AdminFormsList = () => {
             </div>
             <div
               className={styles.clip}
-              onClick={() => navigate(`/user/forms/${list.key}`)}
+              onClick={() => navigate(getRoutePath.userForms(list.key))}
             >
               유저 페이지 이동
             </div>
