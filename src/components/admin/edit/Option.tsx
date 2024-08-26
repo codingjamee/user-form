@@ -9,7 +9,7 @@ const Option = ({
   index,
   option,
   setOption,
-  onBlurGroupFn,
+  updateOptionGroup,
 }: OptionProps) => {
   const [optionDesc, setOptionDesc] = useState<AsksData>(cloneDeep(option));
   const handleBlur = () => {
@@ -21,7 +21,7 @@ const Option = ({
       asks: updatedOptions,
     };
     setOption(newOptionGroup);
-    onBlurGroupFn({ newOption: newOptionGroup });
+    updateOptionGroup({ newOption: newOptionGroup });
   };
 
   const onDeleteFn = (e: MouseEvent<HTMLDivElement>) => {
@@ -36,7 +36,7 @@ const Option = ({
     };
 
     setOption(updatedOptions);
-    onBlurGroupFn({ newOption: updatedOptions });
+    updateOptionGroup({ newOption: updatedOptions });
   };
 
   return (
