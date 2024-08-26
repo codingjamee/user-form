@@ -68,7 +68,7 @@ export interface OptionProps {
   optionClass?: string;
   userOption: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  onBlurGroupFn: ({ newOption }: { newOption: FormsData }) => void;
+  updateOptionGroup: ({ newOption }: { newOption: FormsData }) => void;
   index: number;
   option: AsksData;
 }
@@ -76,7 +76,7 @@ export interface OptionProps {
 export interface OptionTitleProps {
   option: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  handleBlur: ({ newOption }: { newOption: FormsData }) => void;
+  updateOptionGroup: ({ newOption }: { newOption: FormsData }) => void;
 }
 
 export interface AdminPostProps {

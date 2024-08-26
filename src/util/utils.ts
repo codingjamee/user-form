@@ -36,7 +36,7 @@ export const createDefaultFormObj = (): FormPageData => {
         id: ulid(),
         title: "",
         required: false,
-        type: "1",
+        type: "checkbox",
         asks: [
           {
             id: ulid(),

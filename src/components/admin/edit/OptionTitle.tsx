@@ -1,6 +1,10 @@
-import { OptionTitleProps } from "../../../types/type";
+import { FormsData, OptionTitleProps } from "../../../types/type";
 
-const OptionTitle = ({ option, setOption, handleBlur }: OptionTitleProps) => {
+const OptionTitle = ({
+  option,
+  setOption,
+  updateOptionGroup,
+}: OptionTitleProps) => {
   return (
     <div className="box">
       <input
@@ -13,24 +17,24 @@ const OptionTitle = ({ option, setOption, handleBlur }: OptionTitleProps) => {
             title: e.target.value,
           };
           setOption(newOption);
-          handleBlur({ newOption });
+          updateOptionGroup({ newOption });
         }}
       />
       <select
         name=""
         id=""
         onChange={(e) => {
-          const newOption = {
+          const newOption: FormsData = {
             ...option,
-            type: e.target.value,
+            type: e.target.value as "text" | "checkbox" | "radio",
           };
           setOption(newOption);
-          handleBlur({ newOption });
+          updateOptionGroup({ newOption });
         }}
       >
-        <option value="1">객관식 질문</option>
-        <option value="2">체크박스</option>
-        <option value="3">단답형</option>
+        <option value="radio">객관식 질문</option>
+        <option value="checkbox">체크박스</option>
+        <option value="text">단답형</option>
       </select>
     </div>
   );

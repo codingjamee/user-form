@@ -78,7 +78,7 @@ const FormItem = ({
         <OptionTitle
           option={option}
           setOption={setOption}
-          handleBlur={handleBlur}
+          updateOptionGroup={updateOptionGroup}
         />
 
         {userOption.asks.map((option, index) => (
@@ -89,7 +89,7 @@ const FormItem = ({
             index={index}
             option={option}
             setOption={setOption}
-            onBlurGroupFn={handleBlur}
+            updateOptionGroup={updateOptionGroup}
           />
         ))}
         <section className="add" onClick={onClickAdd}>
