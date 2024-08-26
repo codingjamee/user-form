@@ -7,7 +7,6 @@ const AdminResponses = () => {
   //응답이 오면 보여주기
 
   const { formId } = useParams();
-  // console.log(formId);
   const { summary } = useResponses({ formId });
 
   // console.log(summary?.data?.responses);

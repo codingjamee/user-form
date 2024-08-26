@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, useCallback, useState } from "react";
 import Option from "./Option";
 import OptionTitle from "./OptionTitle";
 import { createDefaultFormObj, getClassName } from "../../../util/utils";
-import { AsksData, FormsData, UserOptionProps } from "../../../types/type";
+import { AsksData, FormsData, UpdateOptionProps, UserOptionProps } from "../../../types/type";
 import cloneDeep from "lodash.clonedeep";
 
 const FormItem = ({
@@ -19,11 +19,7 @@ const FormItem = ({
     newOption,
     deleteId,
     type = "update",
-  }: {
-    newOption?: FormsData;
-    deleteId?: string;
-    type?: "update" | "delete";
-  }) => {
+  }: UpdateOptionProps) => {
     if (type === "update" && newOption && !deleteId) {
       return setOptionGroup((prev) => {
         const updatedForms = cloneDeep(prev.forms);

@@ -36,7 +36,11 @@ const Option = ({
     };
 
     setOption(updatedOptions);
-    updateOptionGroup({ newOption: updatedOptions });
+    updateOptionGroup({
+      // newOption: updatedOptions,
+      type: "delete",
+      deleteId: option.id,
+    });
   };
 
   return (

@@ -4,6 +4,7 @@ import Layout from "./components/layout/Layout";
 import UserForms from "./components/user/UserForms";
 import AdminForms from "./components/admin/edit/AdminForms";
 import AdminResponses from "./components/admin/response/AdminResponses";
+import { ROUTE_PATH } from "./util/constants";
 
 export interface RoutesProps {
   name: string;
@@ -32,28 +33,28 @@ export const routes: RoutesProps[] = [
           {
             name: "newForm",
             element: AdminFormsList,
-            path: "/admin/forms",
+            path: ROUTE_PATH.Admin.Forms,
           },
           {
             name: "adminForms",
             element: AdminForms,
-            path: "/admin/forms/:formId/edit",
+            path: ROUTE_PATH.User.FormsEdit,
           },
           {
             name: "adminFormResult",
             element: AdminResponses,
-            path: "/admin/forms/:formId/result",
+            path: ROUTE_PATH.Admin.FormsResult,
           },
         ],
       },
       {
         name: "userForms",
-        path: "/user/forms",
+        path: ROUTE_PATH.User.Forms,
         element: UserForms,
       },
       {
         name: "userFormsDetail",
-        path: "/user/forms/:formId",
+        path: ROUTE_PATH.User.FormsDetail,
         element: UserForms,
       },
     ],

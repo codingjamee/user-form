@@ -68,9 +68,15 @@ export interface OptionProps {
   optionClass?: string;
   userOption: FormsData;
   setOption: React.Dispatch<React.SetStateAction<FormsData>>;
-  updateOptionGroup: ({ newOption }: { newOption: FormsData }) => void;
+  updateOptionGroup: ({ newOption }: UpdateOptionProps) => void;
   index: number;
   option: AsksData;
+}
+
+export interface UpdateOptionProps {
+  newOption?: FormsData;
+  deleteId?: string;
+  type?: "update" | "delete";
 }
 
 export interface OptionTitleProps {
