@@ -7,9 +7,18 @@ const splitKeyWithDot = ({ key }: { key: string }) => {
   return key.split(".");
 };
 
+const determineNestedArray = ({ key }: { key: string }) => {
+  const keyArr = splitKeyWithDot({ key });
+  return keyArr.length > 1;
+};
+
 const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
+  const isNested = determineNestedArray({ key: targetKeys });
+  if (!isNested) return;
+
   const targetKeyArr = splitKeyWithDot({ key: targetKeys });
   const lastKey = targetKeyArr[targetKeyArr.length - 1];
+
   return targetKeyArr.slice(0, -1).reduce((acc, cur) => {
     if (!acc[cur] || typeof acc[cur] !== "object") {
       acc[cur] = {};
@@ -49,11 +58,6 @@ const getValue = ({ data, targetKey }) => {
   return data[targetKey];
 };
 
-const determineNestedArray = ({ key }: { key: string }) => {
-  const keyArr = splitKeyWithDot({ key });
-  return keyArr.length > 1;
-};
-
 /**
  *  반드시 string으로 시작해서 string으로 끝나야함.
  *  string 다음에 string이 존재하지 않음.
@@ -88,7 +92,7 @@ const validateFormKey = ({ key }: { key: string }) => {
   return true;
 };
 
-const useForm = ({ defaultValues }: { defaultValues?: {} }) => {
+const useForm = (defaultValues: {}) => {
   const { data, setData } = useContext(FormContext);
 
   //초깃값 설정
@@ -127,10 +131,12 @@ const useForm = ({ defaultValues }: { defaultValues?: {} }) => {
 
     const isNestedArray = determineNestedArray({ key: name });
 
-    const { lastKey } = getNestedKeyExceptLast({
-      targetKeys: name,
-      newValue: data,
-    });
+    const { lastKey } = isNestedArray
+      ? getNestedKeyExceptLast({
+          targetKeys: name,
+          newValue: data,
+        })
+      : { lastKey: name };
 
     return {
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
@@ -143,7 +149,7 @@ const useForm = ({ defaultValues }: { defaultValues?: {} }) => {
         }
         return setValue({ targetKey: name, value: e.target.value, setData });
       },
-      name: lastKey,
+      name: isNestedArray ? lastKey : name,
       value: isNestedArray
         ? getNestedValue({ data, targetKeys: name })
         : getValue({ data, targetKey: name }),

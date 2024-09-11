@@ -28,10 +28,9 @@ describe("key로 등록하게 되면 해당 key가 hook-form 데이터에 등록
   });
 
   test("key로 등록하게 되면 해당 key가 hook-form 데이터에 등록되는지", async () => {
-    const { result: formResult } = renderHook(
-      () => useForm({ defaultValues: { test: "" } }),
-      { wrapper }
-    );
+    const { result: formResult } = renderHook(() => useForm({ test: "" }), {
+      wrapper,
+    });
 
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
