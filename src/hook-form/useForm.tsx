@@ -14,7 +14,7 @@ const determineNestedArray = ({ key }: { key: string }) => {
 
 const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
   const isNested = determineNestedArray({ key: targetKeys });
-  if (!isNested) return;
+  if (!isNested) return { nestedKeyExceptLast: newValue, lastKey: targetKeys };
 
   const targetKeyArr = splitKeyWithDot({ key: targetKeys });
   const lastKey = targetKeyArr[targetKeyArr.length - 1];
@@ -131,12 +131,10 @@ const useForm = (defaultValues: {}) => {
 
     const isNestedArray = determineNestedArray({ key: name });
 
-    const { lastKey } = isNestedArray
-      ? getNestedKeyExceptLast({
-          targetKeys: name,
-          newValue: data,
-        })
-      : { lastKey: name };
+    const { lastKey } = getNestedKeyExceptLast({
+      targetKeys: name,
+      newValue: data,
+    });
 
     return {
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
@@ -149,7 +147,7 @@ const useForm = (defaultValues: {}) => {
         }
         return setValue({ targetKey: name, value: e.target.value, setData });
       },
-      name: isNestedArray ? lastKey : name,
+      name: lastKey,
       value: isNestedArray
         ? getNestedValue({ data, targetKeys: name })
         : getValue({ data, targetKey: name }),
