@@ -7,48 +7,18 @@ const splitKeyWithDot = ({ key }: { key: string }) => {
   return key.split(".");
 };
 
-const determineNestedArray = ({ key }: { key: string }) => {
+const determineValidNestedArray = ({ key }: { key: string }) => {
   const keyArr = splitKeyWithDot({ key });
+  console.log("determineValidNestedArray", keyArr.length > 1);
   return keyArr.length > 1;
-};
-
-const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
-  const isNested = determineNestedArray({ key: targetKeys });
-  if (!isNested) return { nestedKeyExceptLast: newValue, lastKey: targetKeys };
-
-  const targetKeyArr = splitKeyWithDot({ key: targetKeys });
-  const lastKey = targetKeyArr[targetKeyArr.length - 1];
-
-  return targetKeyArr.slice(0, -1).reduce((acc, cur) => {
-    if (!acc[cur] || typeof acc[cur] !== "object") {
-      acc[cur] = {};
-    }
-    return { nestedKeyExceptLast: acc[cur], lastKey };
-  }, newValue);
-};
-
-const setNestedValue = ({ setData, targetKeys, value }) => {
-  setData((prev) => {
-    const newValue = { ...prev };
-    const { nestedKeyExceptLast, lastKey } = getNestedKeyExceptLast({
-      targetKeys,
-      newValue,
-    });
-    return (nestedKeyExceptLast[lastKey] = value);
-  });
-};
-
-const setValue = ({ setData, targetKey, value }) => {
-  setData((prev) => ({
-    ...prev,
-    [targetKey]: value,
-  }));
 };
 
 const getNestedValue = ({ data, targetKeys }) => {
   const targetKeyArr = splitKeyWithDot({ key: targetKeys });
 
   return targetKeyArr.reduce((acc, cur) => {
+    // console.log("getNestedValue", { data, acc, cur });
+    if (acc === undefined || cur === undefined) return undefined;
     if (!isNaN(Number(cur))) return acc[Number(cur)];
     return acc[cur];
   }, data);
@@ -95,8 +65,85 @@ const validateFormKey = ({ key }: { key: string }) => {
 const useForm = (defaultValues: {}) => {
   const { data, setData } = useContext(FormContext);
 
+  const initializeNestedKey = ({ newValue, targetKeys }) => {
+    const initialLizeObj = { ...newValue };
+    const targetKeyArr = splitKeyWithDot({ key: targetKeys });
+
+    return targetKeyArr.reduce((acc, key, index) => {
+      const isNumeric = !isNaN(Number(key));
+
+      if (!acc[key]) {
+        if (!isNumeric) {
+          acc[key] =
+            index === targetKeys.length - 1
+              ? {}
+              : !isNaN(Number(targetKeys[index + 1]))
+              ? []
+              : {};
+        }
+        if (isNumeric) {
+          acc[Number(key)] = {};
+        }
+      }
+      return isNumeric ? acc[Number(key)] : acc[key];
+    }, initialLizeObj);
+  };
+  
+  const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
+    console.log("getNestedKeyExceptLast", { targetKeys, newValue });
+    const isNested = determineValidNestedArray({ key: targetKeys });
+    if (!isNested)
+      return { nestedKeyExceptLast: newValue, lastKey: targetKeys };
+
+    const targetKeyArr = splitKeyWithDot({ key: targetKeys });
+    const lastKey = targetKeyArr[targetKeyArr.length - 1];
+    console.log("99line", targetKeyArr.slice(0, -1));
+
+    const nestedKeyExceptLast = targetKeyArr
+      .slice(0, -1)
+      .reduce((acc, cur, index) => {
+        if (typeof acc !== "object" || acc === null) {
+          // If acc is not an object (including when it's a string), initialize it as an object
+          return isNaN(Number(cur)) ? {} : [];
+        }
+
+        if (!(cur in acc)) {
+          const nextKey = targetKeyArr[index + 1];
+          acc[cur] = isNaN(Number(nextKey)) ? {} : [];
+        }
+
+        return acc[cur];
+      }, newValue);
+
+    return { nestedKeyExceptLast, lastKey };
+  };
+
+  const setNestedValue = ({ setData, targetKeys, value }) => {
+    console.log("setNestedValue", { setData, targetKeys, value });
+    setData((prev) => {
+      console.log("prev===============", prev);
+      const newValue = { ...prev };
+      console.log("About to call initializeNestedKey");
+
+      const initializedObj = initializeNestedKey({ newValue, targetKeys });
+      console.log("initializedObj", initializedObj);
+      const { nestedKeyExceptLast, lastKey } = getNestedKeyExceptLast({
+        targetKeys,
+        newValue: initializedObj,
+      });
+      return (nestedKeyExceptLast[lastKey] = value);
+    });
+  };
+
+  const setValue = ({ setData, targetKey, value }) => {
+    setData((prev) => ({
+      ...prev,
+      [targetKey]: value,
+    }));
+  };
   //초깃값 설정
   useEffect(() => {
+    console.log("defaultValues", defaultValues);
     setData(defaultValues);
   }, []);
 
@@ -115,6 +162,7 @@ const useForm = (defaultValues: {}) => {
    * @param name
    * @returns onChange, name, value
    */
+
   const register = (
     name: string
   ): {
@@ -123,34 +171,47 @@ const useForm = (defaultValues: {}) => {
     value?: any;
     validationResult: { isValid: boolean; error: string };
   } => {
-    // 해당 이름으로 data를 등록
-
     const isValidKey = validateFormKey({ key: name });
-    if (!isValidKey)
+    if (!isValidKey) {
       return { validationResult: { isValid: false, error: "not valid key" } };
+    }
 
-    const isNestedArray = determineNestedArray({ key: name });
+    const isNestedArray = determineValidNestedArray({ key: name });
 
-    const { lastKey } = getNestedKeyExceptLast({
-      targetKeys: name,
-      newValue: data,
+    // 초기 등록
+    setData((prevData) => {
+      const newData = { ...prevData };
+      const keys = name.split(".");
+      let current = newData;
+      for (let i = 0; i < keys.length - 1; i++) {
+        if (!(keys[i] in current)) {
+          current[keys[i]] = isNaN(Number(keys[i + 1])) ? {} : [];
+        }
+        current = current[keys[i]];
+      }
+      if (current[keys[keys.length - 1]] === undefined) {
+        current[keys[keys.length - 1]] = "";
+      }
+      return newData;
     });
 
     return {
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
-        if (isNestedArray) {
-          return setNestedValue({
-            setData,
-            targetKeys: name,
-            value: e.target.value,
-          }); //nestedValue를 등록
-        }
-        return setValue({ targetKey: name, value: e.target.value, setData });
+        setData((prevData) => {
+          const newData = { ...prevData };
+          const keys = name.split(".");
+          let current = newData;
+          for (let i = 0; i < keys.length - 1; i++) {
+            current = current[keys[i]];
+          }
+          current[keys[keys.length - 1]] = e.target.value;
+          return newData;
+        });
       },
-      name: lastKey,
-      value: isNestedArray
-        ? getNestedValue({ data, targetKeys: name })
-        : getValue({ data, targetKey: name }),
+      name: name.split(".").pop(),
+      get value() {
+        return getNestedValue({ data, targetKeys: name });
+      },
       validationResult: { isValid: true, error: "" },
     };
   };
