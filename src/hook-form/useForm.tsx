@@ -7,12 +7,6 @@ const splitKeyWithDot = ({ key }: { key: string }) => {
   return key.split(".");
 };
 
-const determineNestedArray = ({ key }: { key: string }) => {
-  const keyArr = splitKeyWithDot({ key });
-  console.log("determineNestedArray", keyArr.length > 1);
-  return keyArr.length > 1;
-};
-
 const getNestedValue = ({ data, targetKeys }) => {
   const targetKeyArr = splitKeyWithDot({ key: targetKeys });
 
@@ -22,10 +16,6 @@ const getNestedValue = ({ data, targetKeys }) => {
     if (!isNaN(Number(cur))) return acc[Number(cur)];
     return acc[cur];
   }, data);
-};
-
-const getValue = ({ data, targetKey }) => {
-  return data[targetKey];
 };
 
 /**
@@ -60,85 +50,6 @@ const validateFormKey = ({ key }: { key: string }) => {
   }
 
   return true;
-};
-const initializeNestedKey = ({ newValue, targetKeys }) => {
-  const initialLizeObj = { ...newValue };
-  const targetKeyArr = splitKeyWithDot({ key: targetKeys });
-
-  return targetKeyArr.reduce((acc, key, index) => {
-    const isNumeric = !isNaN(Number(key));
-
-    if (!acc[key]) {
-      if (!isNumeric) {
-        //이미 유효한 key로 가정 (string일때는 다음은 number 혹은 없음)
-        if (!isNaN(Number(targetKeyArr[index + 1]))) {
-          acc[key] = []; //data = {test: []}
-        } else {
-          acc[key] = {};
-        }
-      }
-      if (isNumeric) {
-        //숫자이면 acc[key] = [] 로 놓았을 경우
-        //test[0] = []이 되므로 안됨
-        //test[0] = {} 는 이전에 test가 []로 설정되어야 함 위의 조건문
-        //test[0] = {}
-        acc[Number(key)] = {};
-      }
-    }
-    return isNumeric ? acc[Number(key)] : acc[key];
-  }, initialLizeObj);
-};
-
-const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
-  console.log("getNestedKeyExceptLast", { targetKeys, newValue });
-  const isNested = determineNestedArray({ key: targetKeys });
-  if (!isNested) return { nestedKeyExceptLast: newValue, lastKey: targetKeys };
-
-  const targetKeyArr = splitKeyWithDot({ key: targetKeys });
-  const lastKey = targetKeyArr[targetKeyArr.length - 1];
-  console.log("99line", targetKeyArr.slice(0, -1));
-
-  const nestedKeyExceptLast = targetKeyArr
-    .slice(0, -1)
-    .reduce((acc, cur, index) => {
-      if (typeof acc !== "object" || acc === null) {
-        // If acc is not an object (including when it's a string), initialize it as an object
-        return isNaN(Number(cur)) ? {} : [];
-      }
-
-      if (!(cur in acc)) {
-        const nextKey = targetKeyArr[index + 1];
-        acc[cur] = isNaN(Number(nextKey)) ? {} : [];
-      }
-
-      return acc[cur];
-    }, newValue);
-
-  return { nestedKeyExceptLast, lastKey };
-};
-
-const setNestedValue = ({ setData, targetKeys, value }) => {
-  console.log("setNestedValue", { setData, targetKeys, value });
-  setData((prev) => {
-    console.log("prev===============", prev);
-    const newValue = { ...prev };
-    console.log("About to call initializeNestedKey");
-
-    const initializedObj = initializeNestedKey({ newValue, targetKeys });
-    console.log("initializedObj", initializedObj);
-    const { nestedKeyExceptLast, lastKey } = getNestedKeyExceptLast({
-      targetKeys,
-      newValue: initializedObj,
-    });
-    return (nestedKeyExceptLast[lastKey] = value);
-  });
-};
-
-const setValue = ({ setData, targetKey, value }) => {
-  setData((prev) => ({
-    ...prev,
-    [targetKey]: value,
-  }));
 };
 
 const useForm = (defaultValues: {}) => {
@@ -178,8 +89,6 @@ const useForm = (defaultValues: {}) => {
     if (!isValidKey) {
       return { validationResult: { isValid: false, error: "not valid key" } };
     }
-
-    const isNestedArray = determineNestedArray({ key: name });
 
     // 초기 등록
     setData((prevData) => {
