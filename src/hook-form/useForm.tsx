@@ -7,9 +7,9 @@ const splitKeyWithDot = ({ key }: { key: string }) => {
   return key.split(".");
 };
 
-const determineValidNestedArray = ({ key }: { key: string }) => {
+const determineNestedArray = ({ key }: { key: string }) => {
   const keyArr = splitKeyWithDot({ key });
-  console.log("determineValidNestedArray", keyArr.length > 1);
+  console.log("determineNestedArray", keyArr.length > 1);
   return keyArr.length > 1;
 };
 
@@ -74,24 +74,28 @@ const useForm = (defaultValues: {}) => {
 
       if (!acc[key]) {
         if (!isNumeric) {
-          acc[key] =
-            index === targetKeys.length - 1
-              ? {}
-              : !isNaN(Number(targetKeys[index + 1]))
-              ? []
-              : {};
+          //이미 유효한 key로 가정 (string일때는 다음은 number 혹은 없음)
+          if (!isNaN(Number(targetKeyArr[index + 1]))) {
+            acc[key] = []; //data = {test: []}
+          } else {
+            acc[key] = {};
+          }
         }
         if (isNumeric) {
+          //숫자이면 acc[key] = [] 로 놓았을 경우
+          //test[0] = []이 되므로 안됨
+          //test[0] = {} 는 이전에 test가 []로 설정되어야 함 위의 조건문
+          //test[0] = {}
           acc[Number(key)] = {};
         }
       }
       return isNumeric ? acc[Number(key)] : acc[key];
     }, initialLizeObj);
   };
-  
+
   const getNestedKeyExceptLast = ({ targetKeys, newValue }) => {
     console.log("getNestedKeyExceptLast", { targetKeys, newValue });
-    const isNested = determineValidNestedArray({ key: targetKeys });
+    const isNested = determineNestedArray({ key: targetKeys });
     if (!isNested)
       return { nestedKeyExceptLast: newValue, lastKey: targetKeys };
 
@@ -176,21 +180,21 @@ const useForm = (defaultValues: {}) => {
       return { validationResult: { isValid: false, error: "not valid key" } };
     }
 
-    const isNestedArray = determineValidNestedArray({ key: name });
+    const isNestedArray = determineNestedArray({ key: name });
 
     // 초기 등록
     setData((prevData) => {
       const newData = { ...prevData };
-      const keys = name.split(".");
+      const keysArr = splitKeyWithDot({ key: name });
       let current = newData;
-      for (let i = 0; i < keys.length - 1; i++) {
-        if (!(keys[i] in current)) {
-          current[keys[i]] = isNaN(Number(keys[i + 1])) ? {} : [];
+      for (let i = 0; i < keysArr.length - 1; i++) {
+        if (!(keysArr[i] in current)) {
+          current[keysArr[i]] = isNaN(Number(keysArr[i + 1])) ? {} : [];
         }
-        current = current[keys[i]];
+        current = current[keysArr[i]];
       }
-      if (current[keys[keys.length - 1]] === undefined) {
-        current[keys[keys.length - 1]] = "";
+      if (current[keysArr[keysArr.length - 1]] === undefined) {
+        current[keysArr[keysArr.length - 1]] = "";
       }
       return newData;
     });
@@ -199,12 +203,13 @@ const useForm = (defaultValues: {}) => {
       onChange: (e: ChangeEvent<HTMLInputElement>) => {
         setData((prevData) => {
           const newData = { ...prevData };
-          const keys = name.split(".");
+          console.log("newData", { newData });
+          const keysArr = splitKeyWithDot({ key: name });
           let current = newData;
-          for (let i = 0; i < keys.length - 1; i++) {
-            current = current[keys[i]];
+          for (let i = 0; i < keysArr.length - 1; i++) {
+            current = current[keysArr[i]];
           }
-          current[keys[keys.length - 1]] = e.target.value;
+          current[keysArr[keysArr.length - 1]] = e.target.value;
           return newData;
         });
       },
