@@ -3,7 +3,7 @@ import { createContext, useState } from "react";
 const FormContext = createContext<any>(null);
 
 const FormProvider = ({ children }: { children: any }) => {
-  const [data, setData] = useState();
+  const [data, setData] = useState({});
   // const [fields, setFields] = useState();
 
   return (
