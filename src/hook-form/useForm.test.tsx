@@ -63,7 +63,7 @@ describe("key로 등록하게 되면 해당 key가 hook-form 데이터에 등록
       // expect(result.current.context.data.test[0].nestedValue).toBe("");
     });
   });
-  test("유효하지 않은 키를 등록했을 떄", async () => {
+  test("유효하지 않은 키를 등록했을 떄 registerResult의 값이 false로 변하는가.", async () => {
     let registerResult = { validationResult: { isValid: null, error: null } };
     const { result } = renderHook(
       () => {
@@ -90,7 +90,7 @@ describe("onChange로 값을 변경하면 정상적으로 값이 변경되는지
     return <FormProvider>{children}</FormProvider>;
   };
 
-  test("단일 키의 value를 변경했을 때", async () => {
+  test("단일 키의 value가 잘 변경 되는가", async () => {
     const { result } = renderHook(
       () => {
         const form = useForm({ test: "" });
@@ -114,7 +114,7 @@ describe("onChange로 값을 변경하면 정상적으로 값이 변경되는지
       expect(result.current.context.data.test).toBe("test value");
     });
   });
-  test("중복 키의 value를 변경했을 때", async () => {
+  test("중첩된 키의 value가 잘 변경 되는가", async () => {
     const { result } = renderHook(
       () => {
         const form = useForm({ test: [{ nestedValue: "" }] });

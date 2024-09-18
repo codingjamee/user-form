@@ -121,7 +121,7 @@ const useForm = (defaultValues: {}) => {
           return newData;
         });
       },
-      name: name.split(".").pop(),
+      name: splitKeyWithDot({ key: name }).pop(),
       get value() {
         return getNestedValue({ data, targetKeys: name });
       },
