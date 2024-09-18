@@ -2,7 +2,13 @@ import { describe, expect, test } from "vitest";
 import { useForm } from "./useForm";
 import { FormContext, FormProvider } from "./formContext";
 import { useContext, useEffect } from "react";
-import { act, render, renderHook, waitFor } from "@testing-library/react";
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+  waitFor,
+} from "@testing-library/react";
 
 describe("key로 등록하게 되면 해당 key가 hook-form 데이터에 등록되는지", () => {
   const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
@@ -55,6 +61,83 @@ describe("key로 등록하게 되면 해당 key가 hook-form 데이터에 등록
       // expect(result.current.context.data).toHaveProperty("test");
       expect(result.current.context.data.test[0]).toHaveProperty("nestedValue");
       // expect(result.current.context.data.test[0].nestedValue).toBe("");
+    });
+  });
+  test("유효하지 않은 키를 등록했을 떄", async () => {
+    let registerResult = { validationResult: { isValid: null, error: null } };
+    const { result } = renderHook(
+      () => {
+        const form = useForm({ test: [{ nestedValue: "" }] });
+        const context = useContext(FormContext);
+
+        useEffect(() => {
+          registerResult = form.register("test.test.test");
+        }, []);
+
+        return { form, context };
+      },
+      { wrapper }
+    );
+    await waitFor(() => {
+      expect(registerResult.validationResult.isValid).toBe(false);
+      expect(registerResult.validationResult.error).toBe("not valid key");
+    });
+  });
+});
+
+describe("onChange로 값을 변경하면 정상적으로 값이 변경되는지", () => {
+  const wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    return <FormProvider>{children}</FormProvider>;
+  };
+
+  test("단일 키의 value를 변경했을 때", async () => {
+    const { result } = renderHook(
+      () => {
+        const form = useForm({ test: "" });
+        const context = useContext(FormContext);
+
+        return { form, context };
+      },
+      { wrapper }
+    );
+
+    const registerResult = result.current.form.register("test");
+    const testInput = document.createElement("input");
+    Object.assign(testInput, registerResult);
+
+    registerResult.onChange({
+      target: { value: "test value" },
+    } as React.ChangeEvent<HTMLInputElement>);
+
+    await waitFor(() => {
+      expect(testInput).toHaveProperty("onChange");
+      expect(result.current.context.data.test).toBe("test value");
+    });
+  });
+  test("중복 키의 value를 변경했을 때", async () => {
+    const { result } = renderHook(
+      () => {
+        const form = useForm({ test: [{ nestedValue: "" }] });
+        const context = useContext(FormContext);
+
+        return { form, context };
+      },
+      { wrapper }
+    );
+
+    const registerResult = result.current.form.register("test.0.nestedValue");
+    const testInput = document.createElement("input");
+    Object.assign(testInput, registerResult);
+
+    registerResult.onChange({
+      target: { value: "test value" },
+    } as React.ChangeEvent<HTMLInputElement>);
+
+    await waitFor(() => {
+      expect(testInput).toHaveProperty("onChange");
+      expect(result.current.context.data.test[0].nestedValue).toBe(
+        "test value"
+      );
     });
   });
 });
